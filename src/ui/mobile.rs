@@ -116,7 +116,7 @@ pub(crate) fn mobile_switcher_workspace_doc_range(
         .iter()
         .position(|WorkspaceListEntry::Workspace { ws_idx, .. }| *ws_idx == idx)
         .unwrap_or(idx);
-    // spaces sit after the agents block, then a title + "new workspace" row.
+    // spaces sit after the agents block, then a title + "新しいワークスペース" row.
     let start = mobile_agents_block_height(app) + 2 + pos * 2;
     start..start + 2
 }
@@ -322,7 +322,7 @@ fn render_header_status(
     }
     let p = &app.palette;
     let Some(ws) = app.active.and_then(|idx| app.workspaces.get(idx)) else {
-        frame.render_widget(Paragraph::new(" no workspace"), area);
+        frame.render_widget(Paragraph::new(" ワークスペースなし"), area);
         return;
     };
 
@@ -373,9 +373,9 @@ fn mobile_tab_status(ws: &crate::workspace::Workspace) -> String {
         .tab_display_name(ws.active_tab)
         .unwrap_or_else(|| (ws.active_tab + 1).to_string());
     if ws.tabs.len() <= 1 {
-        format!("tab {tab_label}")
+        format!("タブ {tab_label}")
     } else {
-        format!("tab {tab_label} · {}/{}", ws.active_tab + 1, ws.tabs.len())
+        format!("タブ {tab_label} · {}/{}", ws.active_tab + 1, ws.tabs.len())
     }
 }
 
@@ -392,7 +392,7 @@ fn render_switch_button(app: &AppState, frame: &mut Frame, area: Rect) {
     }
     let label_y = if area.height > 1 { area.y + 1 } else { area.y };
     frame.render_widget(
-        Paragraph::new("switch")
+        Paragraph::new("切り替え")
             .style(
                 Style::default()
                     .fg(p.text)
@@ -502,8 +502,13 @@ fn render_mobile_switcher_content(
         let title = app
             .agent_view_override
             .as_ref()
-            .map(|view| format!("agents · {}", view.label.as_deref().unwrap_or("filtered")))
-            .unwrap_or_else(|| "agents".to_string());
+            .map(|view| {
+                format!(
+                    "エージェント · {}",
+                    view.label.as_deref().unwrap_or("filtered")
+                )
+            })
+            .unwrap_or_else(|| "エージェント".to_string());
         render_section_title_at(
             frame,
             viewport,
@@ -582,7 +587,7 @@ fn render_mobile_switcher_content(
         content,
         doc_y,
         app.mobile_switcher_scroll,
-        "+ new workspace",
+        "+ 新しいワークスペース",
         p,
     );
     doc_y += 1;
@@ -641,7 +646,7 @@ fn render_mobile_switcher_content(
 
         let detail = format!(
             "{detail_prefix}{} · {}",
-            ws.branch().unwrap_or_else(|| "shell".into()),
+            ws.branch().unwrap_or_else(|| "シェル".into()),
             mobile_tab_status(ws)
         );
         render_two_line_item(
@@ -665,7 +670,7 @@ fn render_mobile_switcher_content(
             content,
             doc_y,
             app.mobile_switcher_scroll,
-            "tabs",
+            "タブ",
             p,
         );
         doc_y += 1;
@@ -675,7 +680,7 @@ fn render_mobile_switcher_content(
             content,
             doc_y,
             app.mobile_switcher_scroll,
-            "+ new tab",
+            "+ 新しいタブ",
             p,
         );
         doc_y += 1;
@@ -686,7 +691,7 @@ fn render_mobile_switcher_content(
                 .tab_display_name(idx)
                 .unwrap_or_else(|| (idx + 1).to_string());
             let label = if tab.is_auto_named() {
-                format!("tab {display_name}")
+                format!("タブ {display_name}")
             } else {
                 format!("{} · {display_name}", idx + 1)
             };
@@ -719,7 +724,7 @@ fn render_mobile_switcher_content(
         content,
         doc_y,
         app.mobile_switcher_scroll,
-        "menu",
+        "メニュー",
         p,
     );
     doc_y += 1;
@@ -1175,7 +1180,7 @@ fn mobile_toast_title(toast: &ToastNotification) -> String {
             .strip_suffix(" finished")
             .map(|agent| format!("{agent} done"))
             .unwrap_or_else(|| toast.title.clone()),
-        ToastKind::UpdateInstalled => "update ready".to_string(),
+        ToastKind::UpdateInstalled => "アップデート準備完了".to_string(),
     }
 }
 

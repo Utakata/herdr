@@ -91,14 +91,14 @@ fn render_search(app: &AppState, frame: &mut Frame, area: Rect) {
             app,
         ),
         None if query.is_empty() => spans.push(Span::styled(
-            "search panes",
+            "ペインを検索",
             Style::default().fg(p.overlay0),
         )),
         None => spans.push(Span::styled(query.to_string(), Style::default().fg(p.text))),
     }
     spans.push(Span::styled(
         format!(
-            "{count:>width$} panes",
+            "{count:>width$} ペイン",
             width = area.width.saturating_sub(16) as usize
         ),
         Style::default().fg(p.overlay0),
@@ -397,7 +397,7 @@ fn workspace_detail(
     };
     let label = ws.display_name_from(&app.terminals, terminal_runtimes);
     let pane_count = ws.tabs.iter().map(|tab| tab.panes.len()).sum::<usize>();
-    let mut parts = vec![label, format!("{pane_count} panes")];
+    let mut parts = vec![label, format!("{pane_count} ペイン")];
     if !rowless_workspace_activity(app, terminal_runtimes, ws_idx).is_empty() {
         parts.push(rowless_workspace_activity(app, terminal_runtimes, ws_idx));
     }
@@ -423,7 +423,7 @@ fn tab_detail(
             ws.tab_display_name(tab_idx)
                 .unwrap_or_else(|| (tab_idx + 1).to_string())
         ),
-        format!("{} panes", tab.panes.len()),
+        format!("{} ペイン", tab.panes.len()),
     ];
     let rows = app.navigator_rows_from(terminal_runtimes);
     if let Some(meta) = rows
@@ -459,7 +459,7 @@ fn pane_detail(
         ));
     }
     if let Some(pane_number) = ws.public_pane_number(pane_id) {
-        parts.push(format!("pane {pane_number}"));
+        parts.push(format!("ペイン {pane_number}"));
     }
     if let Some(terminal_id) = tab.terminal_id(pane_id) {
         if let Some(terminal) = app.terminals.get(terminal_id) {
@@ -488,7 +488,7 @@ fn pane_detail(
                     .unwrap_or_else(|| display_state(state, seen).to_string());
                 parts.push(status);
             } else {
-                parts.push("shell".to_string());
+                parts.push("シェル".to_string());
             }
         }
     }
@@ -524,11 +524,11 @@ fn row_state(
 
 fn display_state(state: crate::detect::AgentState, seen: bool) -> &'static str {
     match (state, seen) {
-        (crate::detect::AgentState::Blocked, _) => "blocked",
-        (crate::detect::AgentState::Working, _) => "working",
-        (crate::detect::AgentState::Idle, false) => "done",
-        (crate::detect::AgentState::Idle, true) => "idle",
-        (crate::detect::AgentState::Unknown, _) => "unknown",
+        (crate::detect::AgentState::Blocked, _) => "ブロック中",
+        (crate::detect::AgentState::Working, _) => "作業中",
+        (crate::detect::AgentState::Idle, false) => "完了",
+        (crate::detect::AgentState::Idle, true) => "待機中",
+        (crate::detect::AgentState::Unknown, _) => "不明",
     }
 }
 
@@ -542,24 +542,24 @@ fn render_footer(app: &AppState, frame: &mut Frame, area: Rect) {
     let line = if app.navigator.search_focused {
         Line::from(vec![
             Span::styled(" enter", key),
-            Span::styled(" switch  ", dim),
+            Span::styled(" 切り替え  ", dim),
             Span::styled("↑↓", key),
-            Span::styled(" move  ", dim),
+            Span::styled(" 移動  ", dim),
             Span::styled("ctrl+u", key),
-            Span::styled(" clear  ", dim),
+            Span::styled(" クリア  ", dim),
             Span::styled("esc", key),
-            Span::styled(" back", dim),
+            Span::styled(" 戻る", dim),
         ])
     } else {
         Line::from(vec![
             Span::styled(" enter", key),
-            Span::styled(" switch  ", dim),
+            Span::styled(" 切り替え  ", dim),
             Span::styled("/", key),
-            Span::styled(" search  ", dim),
+            Span::styled(" 検索  ", dim),
             Span::styled("b/w/i/d/a", key),
             Span::styled(" states  ", dim),
             Span::styled("j/k/↑↓", key),
-            Span::styled(" move  ", dim),
+            Span::styled(" 移動  ", dim),
             Span::styled("esc", key),
             Span::styled(" close", dim),
         ])

@@ -35,14 +35,14 @@ fn api_schema(args: &[String]) -> std::io::Result<i32> {
             println!("wrote API schema to {path}");
         }
         [flag] if flag == "--output" => {
-            eprintln!("missing value for --output");
+            eprintln!("値が不足しています: --output");
             return Ok(2);
         }
         [flag] if matches!(flag.as_str(), "help" | "--help" | "-h") => {
             print_api_schema_help();
         }
         [other] if other.starts_with('-') => {
-            eprintln!("unknown option: {other}");
+            eprintln!("不明なオプション: {other}");
             return Ok(2);
         }
         _ => {
@@ -55,7 +55,7 @@ fn api_schema(args: &[String]) -> std::io::Result<i32> {
 
 fn api_snapshot(args: &[String]) -> std::io::Result<i32> {
     if !args.is_empty() {
-        eprintln!("usage: herdr api snapshot");
+        eprintln!("使用法: herdr api snapshot");
         return Ok(2);
     }
 
@@ -103,7 +103,7 @@ fn print_api_help() {
 }
 
 fn print_api_schema_help() {
-    eprintln!("usage: herdr api schema [--json | --output PATH]");
+    eprintln!("使用法: herdr api schema [--json | --output PATH]");
 }
 
 #[cfg(test)]

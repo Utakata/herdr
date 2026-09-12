@@ -63,9 +63,9 @@ pub(super) fn render_release_notes_overlay(app: &AppState, frame: &mut Frame, ar
         &app.palette,
     );
     let subtitle = if notes.preview {
-        "update ready"
+        "アップデート準備完了"
     } else {
-        "what's new in this release"
+        "このリリースの新機能"
     };
     frame.render_widget(
         Paragraph::new(subtitle).style(Style::default().fg(app.palette.overlay1)),
@@ -124,11 +124,11 @@ pub(super) fn render_release_notes_overlay(app: &AppState, frame: &mut Frame, ar
 
     frame.render_widget(
         Paragraph::new(Line::from(vec![
-            Span::styled(" scroll ", Style::default().fg(app.palette.overlay0)),
-            Span::styled("wheel ↑↓", Style::default().fg(app.palette.text)),
+            Span::styled(" スクロール ", Style::default().fg(app.palette.overlay0)),
+            Span::styled("ホイール ↑↓", Style::default().fg(app.palette.text)),
             Span::styled("  ·  ", Style::default().fg(app.palette.overlay0)),
             Span::styled("close", Style::default().fg(app.palette.overlay0)),
-            Span::styled(" esc / enter ", Style::default().fg(app.palette.text)),
+            Span::styled(" Esc / Enter ", Style::default().fg(app.palette.text)),
         ])),
         stack.footer.unwrap_or_default(),
     );
@@ -173,9 +173,9 @@ pub(super) fn render_product_announcement_overlay(app: &AppState, frame: &mut Fr
 
     render_modal_header(frame, header_title_area, &announcement.title, &app.palette);
     let subtitle = if announcement.preview {
-        "product announcement preview"
+        "製品発表プレビュー"
     } else {
-        "product announcement"
+        "製品発表"
     };
     frame.render_widget(
         Paragraph::new(format!("{subtitle} · v{}", announcement.version))
@@ -235,11 +235,11 @@ pub(super) fn render_product_announcement_overlay(app: &AppState, frame: &mut Fr
 
     frame.render_widget(
         Paragraph::new(Line::from(vec![
-            Span::styled(" scroll ", Style::default().fg(app.palette.overlay0)),
-            Span::styled("wheel ↑↓", Style::default().fg(app.palette.text)),
+            Span::styled(" スクロール ", Style::default().fg(app.palette.overlay0)),
+            Span::styled("ホイール ↑↓", Style::default().fg(app.palette.text)),
             Span::styled("  ·  ", Style::default().fg(app.palette.overlay0)),
             Span::styled("close", Style::default().fg(app.palette.overlay0)),
-            Span::styled(" esc / enter ", Style::default().fg(app.palette.text)),
+            Span::styled(" Esc / Enter ", Style::default().fg(app.palette.text)),
         ])),
         stack.footer.unwrap_or_default(),
     );
@@ -400,7 +400,7 @@ fn release_notes_preview_line_entries<'a>(
                     "●",
                     Style::default().fg(p.accent).add_modifier(Modifier::BOLD),
                 ),
-                Span::styled(" update ready", title_style),
+                Span::styled(" アップデート準備完了", title_style),
             ]),
         ),
         (instruction_width + 1, Line::from(instruction_spans)),
@@ -440,7 +440,7 @@ pub(crate) fn release_notes_wrapped_line_count(lines: &[(usize, Line<'_>)], widt
 }
 
 pub(crate) fn release_notes_close_button_rect(area: Rect) -> Rect {
-    let width = action_button_width(Some("esc"), "close");
+    let width = action_button_width(Some("esc"), "閉じる");
     Rect::new(area.x + area.width.saturating_sub(width), area.y, width, 1)
 }
 

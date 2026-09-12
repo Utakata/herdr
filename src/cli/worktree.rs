@@ -13,7 +13,7 @@ pub(super) fn run_worktree_command(args: &[String]) -> std::io::Result<i32> {
         "list" => worktree_list(&args[1..]),
         "create" => worktree_create(&args[1..]),
         "open" => worktree_open(&args[1..]),
-        "remove" => worktree_remove(&args[1..]),
+        "削除" => worktree_remove(&args[1..]),
         "help" | "--help" | "-h" => {
             print_worktree_help();
             Ok(0)
@@ -35,7 +35,7 @@ fn worktree_list(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--workspace" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --workspace");
+                    eprintln!("値が不足しています: --workspace");
                     return Ok(2);
                 };
                 workspace_id = Some(super::normalize_workspace_id(value));
@@ -43,7 +43,7 @@ fn worktree_list(args: &[String]) -> std::io::Result<i32> {
             }
             "--cwd" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --cwd");
+                    eprintln!("値が不足しています: --cwd");
                     return Ok(2);
                 };
                 cwd = Some(normalize_path_arg(value)?);
@@ -55,13 +55,13 @@ fn worktree_list(args: &[String]) -> std::io::Result<i32> {
             }
             "--json" => index += 1,
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
     }
     if workspace_id.is_some() && cwd.is_some() {
-        eprintln!("usage: herdr worktree list [--workspace ID | --cwd PATH] [--trust-repository]");
+        eprintln!("使用法: herdr worktree list [--workspace ID | --cwd PATH] [--trust-repository]");
         return Ok(2);
     }
 
@@ -87,7 +87,7 @@ fn worktree_create(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--workspace" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --workspace");
+                    eprintln!("値が不足しています: --workspace");
                     return Ok(2);
                 };
                 workspace_id = Some(super::normalize_workspace_id(value));
@@ -95,7 +95,7 @@ fn worktree_create(args: &[String]) -> std::io::Result<i32> {
             }
             "--cwd" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --cwd");
+                    eprintln!("値が不足しています: --cwd");
                     return Ok(2);
                 };
                 cwd = Some(normalize_path_arg(value)?);
@@ -103,7 +103,7 @@ fn worktree_create(args: &[String]) -> std::io::Result<i32> {
             }
             "--branch" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --branch");
+                    eprintln!("値が不足しています: --branch");
                     return Ok(2);
                 };
                 branch = Some(value.clone());
@@ -111,7 +111,7 @@ fn worktree_create(args: &[String]) -> std::io::Result<i32> {
             }
             "--base" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --base");
+                    eprintln!("値が不足しています: --base");
                     return Ok(2);
                 };
                 base = Some(value.clone());
@@ -119,7 +119,7 @@ fn worktree_create(args: &[String]) -> std::io::Result<i32> {
             }
             "--path" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --path");
+                    eprintln!("値が不足しています: --path");
                     return Ok(2);
                 };
                 path = Some(normalize_path_arg(value)?);
@@ -127,7 +127,7 @@ fn worktree_create(args: &[String]) -> std::io::Result<i32> {
             }
             "--label" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --label");
+                    eprintln!("値が不足しています: --label");
                     return Ok(2);
                 };
                 label = Some(value.clone());
@@ -147,7 +147,7 @@ fn worktree_create(args: &[String]) -> std::io::Result<i32> {
             }
             "--json" => index += 1,
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -185,7 +185,7 @@ fn worktree_open(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--workspace" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --workspace");
+                    eprintln!("値が不足しています: --workspace");
                     return Ok(2);
                 };
                 workspace_id = Some(super::normalize_workspace_id(value));
@@ -193,7 +193,7 @@ fn worktree_open(args: &[String]) -> std::io::Result<i32> {
             }
             "--cwd" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --cwd");
+                    eprintln!("値が不足しています: --cwd");
                     return Ok(2);
                 };
                 cwd = Some(normalize_path_arg(value)?);
@@ -201,7 +201,7 @@ fn worktree_open(args: &[String]) -> std::io::Result<i32> {
             }
             "--path" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --path");
+                    eprintln!("値が不足しています: --path");
                     return Ok(2);
                 };
                 path = Some(normalize_path_arg(value)?);
@@ -209,7 +209,7 @@ fn worktree_open(args: &[String]) -> std::io::Result<i32> {
             }
             "--branch" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --branch");
+                    eprintln!("値が不足しています: --branch");
                     return Ok(2);
                 };
                 branch = Some(value.clone());
@@ -217,7 +217,7 @@ fn worktree_open(args: &[String]) -> std::io::Result<i32> {
             }
             "--label" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --label");
+                    eprintln!("値が不足しています: --label");
                     return Ok(2);
                 };
                 label = Some(value.clone());
@@ -237,7 +237,7 @@ fn worktree_open(args: &[String]) -> std::io::Result<i32> {
             }
             "--json" => index += 1,
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -276,7 +276,7 @@ fn worktree_remove(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--workspace" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --workspace");
+                    eprintln!("値が不足しています: --workspace");
                     return Ok(2);
                 };
                 workspace_id = Some(super::normalize_workspace_id(value));
@@ -292,14 +292,14 @@ fn worktree_remove(args: &[String]) -> std::io::Result<i32> {
             }
             "--json" => index += 1,
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
     }
 
     let Some(workspace_id) = workspace_id else {
-        eprintln!("usage: herdr worktree remove --workspace ID [--force] [--trust-repository]");
+        eprintln!("使用法: herdr worktree remove --workspace ID [--force] [--trust-repository]");
         return Ok(2);
     };
 

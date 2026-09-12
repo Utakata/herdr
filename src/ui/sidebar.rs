@@ -80,8 +80,8 @@ pub(crate) fn sidebar_section_divider_rect(area: Rect, split_ratio: f32) -> Rect
 
 fn agent_panel_sort_label(sort: AgentPanelSort) -> &'static str {
     match sort {
-        AgentPanelSort::Spaces => "grouped",
-        AgentPanelSort::Priority => "priority",
+        AgentPanelSort::Spaces => "グループ",
+        AgentPanelSort::Priority => "優先度",
     }
 }
 
@@ -106,7 +106,7 @@ fn agent_panel_header_label_rect(area: Rect, label: &str) -> Rect {
 fn active_agent_view_label(app: &AppState) -> Option<&str> {
     app.agent_view_override
         .as_ref()
-        .map(|view| view.label.as_deref().unwrap_or("filtered"))
+        .map(|view| view.label.as_deref().unwrap_or("フィルタ済み"))
 }
 
 pub(crate) fn agent_panel_entries(app: &AppState) -> Vec<AgentPanelEntry> {
@@ -185,11 +185,11 @@ fn collect_agent_panel_entries_with_runtimes(
 
 pub(super) fn agent_panel_status_key(state: AgentState, seen: bool) -> &'static str {
     match (state, seen) {
-        (AgentState::Idle, false) => "done",
-        (AgentState::Idle, true) => "idle",
-        (AgentState::Working, _) => "working",
-        (AgentState::Blocked, _) => "blocked",
-        (AgentState::Unknown, _) => "unknown",
+        (AgentState::Idle, false) => "完了",
+        (AgentState::Idle, true) => "待機中",
+        (AgentState::Working, _) => "作業中",
+        (AgentState::Blocked, _) => "ブロック中",
+        (AgentState::Unknown, _) => "不明",
     }
 }
 
@@ -1232,7 +1232,7 @@ fn render_workspace_list(
     if area.height > 0 {
         frame.render_widget(
             Paragraph::new(Line::from(vec![Span::styled(
-                " spaces",
+                " スペース",
                 Style::default().fg(p.overlay0).add_modifier(Modifier::BOLD),
             )])),
             Rect::new(area.x, area.y, area.width, 1),
@@ -1406,7 +1406,7 @@ fn render_workspace_list(
     if app.mouse_capture && list_bottom > area.y {
         let new_rect = app.sidebar_new_button_rect();
         frame.render_widget(
-            Paragraph::new(Span::styled(" new", Style::default().fg(p.overlay0))),
+            Paragraph::new(Span::styled(" 新規", Style::default().fg(p.overlay0))),
             new_rect,
         );
 
@@ -1417,10 +1417,13 @@ fn render_workspace_list(
                     "● ",
                     Style::default().fg(p.accent).add_modifier(Modifier::BOLD),
                 ),
-                Span::styled("menu", Style::default().fg(p.overlay0)),
+                Span::styled("メニュー", Style::default().fg(p.overlay0)),
             ])
         } else {
-            Line::from(vec![Span::styled("menu", Style::default().fg(p.overlay0))])
+            Line::from(vec![Span::styled(
+                "メニュー",
+                Style::default().fg(p.overlay0),
+            )])
         };
         frame.render_widget(
             Paragraph::new(menu_line).alignment(Alignment::Right),
@@ -1449,7 +1452,7 @@ fn render_agent_detail(
 
     frame.render_widget(
         Paragraph::new(Line::from(vec![Span::styled(
-            " agents",
+            " エージェント",
             Style::default().fg(p.overlay0).add_modifier(Modifier::BOLD),
         )])),
         Rect::new(area.x, area.y + 1, area.width, 1),
@@ -1482,7 +1485,7 @@ fn render_agent_detail(
     }
     if details.is_empty() && app.agent_view_override.is_some() {
         frame.render_widget(
-            Paragraph::new(" no matching agents")
+            Paragraph::new(" 一致するエージェントがいません")
                 .style(Style::default().fg(p.overlay0).add_modifier(Modifier::DIM)),
             Rect::new(body.x, body.y, body.width, 1),
         );
@@ -1678,8 +1681,8 @@ mod tests {
         let second = row_text(buffer, body.y + 1, 25);
         assert!(first.contains("one"));
         assert_eq!(second, "   pi");
-        assert!(!first.contains("working"));
-        assert!(!second.contains("working"));
+        assert!(!first.contains("作業中"));
+        assert!(!second.contains("作業中"));
 
         let workspace_x = find_symbol_x(buffer, body.y, body.width, "o");
         let workspace_style = buffer[(workspace_x, body.y)].style();
@@ -1701,7 +1704,7 @@ mod tests {
         let config: crate::config::Config = toml::from_str(
             r##"
 [ui.sidebar.agents]
-rows = [[{ token = "workspace", bold = false }, { token = "agent", dim = false }]]
+rows = [[{ token = "ワークスペース", bold = false }, { token = "agent", dim = false }]]
 "##,
         )
         .unwrap();
@@ -1888,7 +1891,7 @@ rows = [[{ token = "workspace", bold = false }, { token = "agent", dim = false }
         let config: crate::config::Config = toml::from_str(
             r##"
 [ui.sidebar.spaces]
-rows = [[{ token = "$hype", fg = "#abcdef", bold = true, dim = false }, "workspace"]]
+rows = [[{ token = "$hype", fg = "#abcdef", bold = true, dim = false }, "ワークスペース"]]
 "##,
         )
         .unwrap();
@@ -2225,7 +2228,7 @@ rows = [[{ token = "git_status", fg = "#123456" }]]
             labels,
             [
                 ("auto", None),
-                ("custom", Some("focus")),
+                ("カスタム", Some("focus")),
                 ("multi", Some("1")),
                 ("multi", Some("logs")),
             ]

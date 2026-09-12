@@ -226,11 +226,11 @@ pub(super) fn state_icon(
 
 pub(super) fn state_label(state: AgentState, seen: bool) -> &'static str {
     match (state, seen) {
-        (AgentState::Blocked, _) => "blocked",
-        (AgentState::Working, _) => "working",
-        (AgentState::Idle, false) => "done",
-        (AgentState::Idle, true) => "idle",
-        (AgentState::Unknown, _) => "idle",
+        (AgentState::Blocked, _) => "ブロック中",
+        (AgentState::Working, _) => "作業中",
+        (AgentState::Idle, false) => "完了",
+        (AgentState::Idle, true) => "待機中",
+        (AgentState::Unknown, _) => "待機中",
     }
 }
 
@@ -253,7 +253,7 @@ mod tests {
         ToastNotification {
             kind: ToastKind::Finished,
             title: "done".to_string(),
-            context: "workspace".to_string(),
+            context: "ワークスペース".to_string(),
             position: None,
             target: None,
         }

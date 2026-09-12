@@ -24,12 +24,12 @@ fn help_entry(key: impl Into<String>, label: &'static str) -> HelpEntry {
 }
 
 fn keybind_label(bindings: &crate::config::ActionKeybinds) -> String {
-    bindings.label().unwrap_or_else(|| "unset".to_string())
+    bindings.label().unwrap_or_else(|| "未設定".to_string())
 }
 
 fn indexed_label(bindings: &[crate::config::IndexedKeybind]) -> String {
     if bindings.is_empty() {
-        return "unset".to_string();
+        return "未設定".to_string();
     }
 
     let mut parts = Vec::new();
@@ -64,25 +64,25 @@ pub(super) fn keybind_help_groups(app: &AppState) -> Vec<HelpGroup> {
     let mut groups = Vec::new();
 
     groups.push((
-        "global",
+        "グローバル",
         vec![
             help_entry(
                 crate::config::format_key_combo((app.prefix_code, app.prefix_mods)),
-                "prefix mode",
+                "プレフィックスモード",
             ),
-            help_entry(keybind_label(&kb.help), "keybinds"),
-            help_entry(keybind_label(&kb.settings), "settings"),
-            help_entry(keybind_label(&kb.detach), "detach"),
-            help_entry(keybind_label(&kb.reload_config), "reload config"),
+            help_entry(keybind_label(&kb.help), "キーバインド"),
+            help_entry(keybind_label(&kb.settings), "設定"),
+            help_entry(keybind_label(&kb.detach), "デタッチ"),
+            help_entry(keybind_label(&kb.reload_config), "設定を再読み込み"),
             help_entry(
                 keybind_label(&kb.open_notification_target),
-                "open notification target",
+                "通知ターゲットを開く",
             ),
         ],
     ));
 
     groups.push((
-        "navigation",
+        "ナビゲーション",
         vec![
             help_entry("esc", "back"),
             help_entry(
@@ -91,7 +91,7 @@ pub(super) fn keybind_help_groups(app: &AppState) -> Vec<HelpGroup> {
                     keybind_label(&kb.navigate.workspace_up),
                     keybind_label(&kb.navigate.workspace_down)
                 ),
-                "workspace list",
+                "ワークスペースリスト",
             ),
             help_entry(
                 format!(
@@ -101,73 +101,88 @@ pub(super) fn keybind_help_groups(app: &AppState) -> Vec<HelpGroup> {
                     keybind_label(&kb.navigate.pane_up),
                     keybind_label(&kb.navigate.pane_right)
                 ),
-                "move focus",
+                "フォーカスを移動",
             ),
-            help_entry("tab / shift+tab", "cycle pane"),
-            help_entry("enter", "open workspace"),
-            help_entry("1..9", "switch workspace"),
+            help_entry("tab / shift+tab", "ペインを循環"),
+            help_entry("enter", "ワークスペースを開く"),
+            help_entry("1..9", "ワークスペースを切り替え"),
         ],
     ));
 
     let workspace_tab = vec![
-        help_entry(keybind_label(&kb.workspace_picker), "workspace navigation"),
-        help_entry(keybind_label(&kb.goto), "session navigator"),
-        help_entry(keybind_label(&kb.new_workspace), "new workspace"),
-        help_entry(keybind_label(&kb.new_worktree), "new worktree"),
-        help_entry(keybind_label(&kb.open_worktree), "open worktree"),
+        help_entry(
+            keybind_label(&kb.workspace_picker),
+            "ワークスペースナビゲーション",
+        ),
+        help_entry(keybind_label(&kb.goto), "セッションナビゲーター"),
+        help_entry(keybind_label(&kb.new_workspace), "新しいワークスペース"),
+        help_entry(keybind_label(&kb.new_worktree), "新しいワークツリー"),
+        help_entry(keybind_label(&kb.open_worktree), "ワークツリーを開く"),
         help_entry(
             keybind_label(&kb.remove_worktree),
-            "delete worktree checkout",
+            "ワークツリーのチェックアウトを削除",
         ),
-        help_entry(keybind_label(&kb.rename_workspace), "rename workspace"),
-        help_entry(keybind_label(&kb.close_workspace), "close workspace"),
-        help_entry(keybind_label(&kb.previous_workspace), "previous workspace"),
-        help_entry(keybind_label(&kb.next_workspace), "next workspace"),
+        help_entry(
+            keybind_label(&kb.rename_workspace),
+            "ワークスペース名を変更",
+        ),
+        help_entry(keybind_label(&kb.close_workspace), "ワークスペースを閉じる"),
+        help_entry(keybind_label(&kb.previous_workspace), "前のワークスペース"),
+        help_entry(keybind_label(&kb.next_workspace), "次のワークスペース"),
         help_entry(indexed_label(&kb.switch_workspace), "switch workspace 1-9"),
-        help_entry(keybind_label(&kb.previous_agent), "previous agent"),
-        help_entry(keybind_label(&kb.next_agent), "next agent"),
+        help_entry(keybind_label(&kb.previous_agent), "前のエージェント"),
+        help_entry(keybind_label(&kb.next_agent), "次のエージェント"),
         help_entry(indexed_label(&kb.focus_agent), "focus agent 1-9"),
-        help_entry(keybind_label(&kb.new_tab), "new tab"),
-        help_entry(keybind_label(&kb.rename_tab), "rename tab"),
-        help_entry(keybind_label(&kb.previous_tab), "previous tab"),
-        help_entry(keybind_label(&kb.next_tab), "next tab"),
-        help_entry(keybind_label(&kb.move_tab_previous), "move tab left"),
-        help_entry(keybind_label(&kb.move_tab_next), "move tab right"),
+        help_entry(keybind_label(&kb.new_tab), "新しいタブ"),
+        help_entry(keybind_label(&kb.rename_tab), "タブ名を変更"),
+        help_entry(keybind_label(&kb.previous_tab), "前のタブ"),
+        help_entry(keybind_label(&kb.next_tab), "次のタブ"),
+        help_entry(keybind_label(&kb.move_tab_previous), "タブを左に移動"),
+        help_entry(keybind_label(&kb.move_tab_next), "タブを右に移動"),
         help_entry(indexed_label(&kb.switch_tab), "switch tab 1-9"),
-        help_entry(keybind_label(&kb.close_tab), "close tab"),
+        help_entry(keybind_label(&kb.close_tab), "タブを閉じる"),
     ];
     groups.push(("workspaces / tabs", workspace_tab));
 
     let panes = vec![
-        help_entry(keybind_label(&kb.split_vertical), "split vertical"),
-        help_entry(keybind_label(&kb.split_horizontal), "split horizontal"),
-        help_entry(keybind_label(&kb.close_pane), "close pane"),
-        help_entry(keybind_label(&kb.rename_pane), "rename pane"),
-        help_entry(keybind_label(&kb.edit_scrollback), "edit scrollback"),
-        help_entry(keybind_label(&kb.copy_mode), "copy mode"),
-        help_entry(keybind_label(&kb.zoom), "zoom pane"),
-        help_entry(keybind_label(&kb.resize_mode), "resize mode"),
-        help_entry(keybind_label(&kb.resize_pane_left), "resize pane left"),
-        help_entry(keybind_label(&kb.resize_pane_down), "resize pane down"),
-        help_entry(keybind_label(&kb.resize_pane_up), "resize pane up"),
-        help_entry(keybind_label(&kb.resize_pane_right), "resize pane right"),
-        help_entry(keybind_label(&kb.toggle_sidebar), "toggle sidebar"),
-        help_entry(keybind_label(&kb.focus_pane_left), "focus pane left"),
-        help_entry(keybind_label(&kb.focus_pane_down), "focus pane down"),
-        help_entry(keybind_label(&kb.focus_pane_up), "focus pane up"),
-        help_entry(keybind_label(&kb.focus_pane_right), "focus pane right"),
-        help_entry(keybind_label(&kb.cycle_pane_next), "cycle pane next"),
+        help_entry(keybind_label(&kb.split_vertical), "垂直分割"),
+        help_entry(keybind_label(&kb.split_horizontal), "水平分割"),
+        help_entry(keybind_label(&kb.close_pane), "ペインを閉じる"),
+        help_entry(keybind_label(&kb.rename_pane), "ペイン名を変更"),
+        help_entry(keybind_label(&kb.edit_scrollback), "スクロールバックを編集"),
+        help_entry(keybind_label(&kb.copy_mode), "コピーモード"),
+        help_entry(keybind_label(&kb.zoom), "ペインをズーム"),
+        help_entry(keybind_label(&kb.resize_mode), "サイズ変更モード"),
         help_entry(
-            keybind_label(&kb.cycle_pane_previous),
-            "cycle pane previous",
+            keybind_label(&kb.resize_pane_left),
+            "ペインを左にサイズ変更",
         ),
-        help_entry(keybind_label(&kb.last_pane), "last pane"),
+        help_entry(
+            keybind_label(&kb.resize_pane_down),
+            "ペインを下にサイズ変更",
+        ),
+        help_entry(keybind_label(&kb.resize_pane_up), "ペインを上にサイズ変更"),
+        help_entry(
+            keybind_label(&kb.resize_pane_right),
+            "ペインを右にサイズ変更",
+        ),
+        help_entry(keybind_label(&kb.toggle_sidebar), "サイドバーの切り替え"),
+        help_entry(keybind_label(&kb.focus_pane_left), "左のペインにフォーカス"),
+        help_entry(keybind_label(&kb.focus_pane_down), "下のペインにフォーカス"),
+        help_entry(keybind_label(&kb.focus_pane_up), "上のペインにフォーカス"),
+        help_entry(
+            keybind_label(&kb.focus_pane_right),
+            "右のペインにフォーカス",
+        ),
+        help_entry(keybind_label(&kb.cycle_pane_next), "次のペインへ循環"),
+        help_entry(keybind_label(&kb.cycle_pane_previous), "前のペインへ循環"),
+        help_entry(keybind_label(&kb.last_pane), "最後のペイン"),
     ];
-    groups.push(("panes", panes));
+    groups.push(("ペイン", panes));
 
     if !kb.custom_commands.is_empty() {
         groups.push((
-            "custom",
+            "カスタム",
             kb.custom_commands
                 .iter()
                 .map(|binding| {
@@ -177,7 +192,7 @@ pub(super) fn keybind_help_groups(app: &AppState) -> Vec<HelpGroup> {
                             .description
                             .clone()
                             .map(Cow::Owned)
-                            .unwrap_or(Cow::Borrowed("custom command")),
+                            .unwrap_or(Cow::Borrowed("カスタムコマンド")),
                     )
                 })
                 .collect(),
@@ -226,7 +241,7 @@ pub(crate) fn keybind_help_lines(app: &AppState) -> Vec<(usize, Line<'static>)> 
     let mut lines = Vec::new();
 
     if groups.is_empty() {
-        let message = " no matching keybinds";
+        let message = " 一致するキーバインドがありません";
         return vec![(
             message.chars().count(),
             Line::from(Span::styled(
@@ -272,7 +287,7 @@ pub(super) fn render_keybind_help_overlay(app: &AppState, frame: &mut Frame) {
     let header_rows =
         Layout::vertical([Constraint::Length(1), Constraint::Length(1)]).areas::<2>(stack.header);
 
-    render_modal_header(frame, header_rows[0], "keybinds", &app.palette);
+    render_modal_header(frame, header_rows[0], "キーバインド", &app.palette);
     render_action_button(
         frame,
         release_notes_close_button_rect(header_rows[0]),
@@ -352,13 +367,13 @@ pub(super) fn render_keybind_help_overlay(app: &AppState, frame: &mut Frame) {
 
     let footer = if app.keybind_help.search_focused {
         Line::from(vec![
-            Span::styled(" filter ", Style::default().fg(app.palette.overlay0)),
+            Span::styled(" フィルター ", Style::default().fg(app.palette.overlay0)),
             Span::styled("type/backspace", Style::default().fg(app.palette.text)),
             Span::styled(" · ", Style::default().fg(app.palette.overlay0)),
-            Span::styled("clear ", Style::default().fg(app.palette.overlay0)),
+            Span::styled("クリア ", Style::default().fg(app.palette.overlay0)),
             Span::styled("ctrl+u", Style::default().fg(app.palette.text)),
             Span::styled(" · ", Style::default().fg(app.palette.overlay0)),
-            Span::styled("scroll ", Style::default().fg(app.palette.overlay0)),
+            Span::styled("スクロール ", Style::default().fg(app.palette.overlay0)),
             Span::styled("↑↓/pgup/pgdn", Style::default().fg(app.palette.text)),
             Span::styled(" · ", Style::default().fg(app.palette.overlay0)),
             Span::styled("back ", Style::default().fg(app.palette.overlay0)),
@@ -366,10 +381,10 @@ pub(super) fn render_keybind_help_overlay(app: &AppState, frame: &mut Frame) {
         ])
     } else {
         Line::from(vec![
-            Span::styled(" search ", Style::default().fg(app.palette.overlay0)),
+            Span::styled(" 検索 ", Style::default().fg(app.palette.overlay0)),
             Span::styled("/", Style::default().fg(app.palette.text)),
             Span::styled(" · ", Style::default().fg(app.palette.overlay0)),
-            Span::styled("scroll ", Style::default().fg(app.palette.overlay0)),
+            Span::styled("スクロール ", Style::default().fg(app.palette.overlay0)),
             Span::styled("j/k/↑↓/pgup/pgdn", Style::default().fg(app.palette.text)),
             Span::styled(" · ", Style::default().fg(app.palette.overlay0)),
             Span::styled("close ", Style::default().fg(app.palette.overlay0)),
@@ -388,15 +403,15 @@ mod tests {
             (
                 "workspaces / tabs",
                 vec![
-                    help_entry("w", "workspace navigation"),
-                    help_entry("c", "new tab"),
+                    help_entry("w", "ワークスペースナビゲーション"),
+                    help_entry("c", "新しいタブ"),
                 ],
             ),
             (
                 "panes",
                 vec![
-                    help_entry("v", "split vertical"),
-                    help_entry("x", "close pane"),
+                    help_entry("v", "垂直分割"),
+                    help_entry("x", "ペインを閉じる"),
                 ],
             ),
         ]
@@ -409,7 +424,7 @@ mod tests {
         assert_eq!(filtered.len(), 1);
         assert_eq!(filtered[0].0, "workspaces / tabs");
         assert_eq!(filtered[0].1.len(), 1);
-        assert_eq!(filtered[0].1[0].1, "workspace navigation");
+        assert_eq!(filtered[0].1[0].1, "ワークスペースナビゲーション");
     }
 
     #[test]
@@ -419,7 +434,7 @@ mod tests {
         assert_eq!(filtered.len(), 1);
         assert_eq!(filtered[0].0, "panes");
         assert_eq!(filtered[0].1.len(), 1);
-        assert_eq!(filtered[0].1[0].1, "close pane");
+        assert_eq!(filtered[0].1[0].1, "ペインを閉じる");
 
         assert!(filter_keybind_help_groups(groups(), "panes").is_empty());
     }

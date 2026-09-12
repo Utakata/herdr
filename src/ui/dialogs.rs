@@ -23,15 +23,15 @@ pub(crate) fn rename_button_rects(inner: Rect) -> (Rect, Rect, Rect) {
         &[
             ActionButtonSpec {
                 hint: Some("↵"),
-                label: "save",
+                label: "保存",
             },
             ActionButtonSpec {
                 hint: Some("^c"),
-                label: "clear",
+                label: "クリア",
             },
             ActionButtonSpec {
                 hint: Some("esc"),
-                label: "cancel",
+                label: "キャンセル",
             },
         ],
         2,
@@ -79,11 +79,13 @@ pub(super) fn render_rename_overlay(app: &AppState, frame: &mut Frame, area: Rec
     super::dim_background(frame, area);
 
     let title = match app.mode {
-        Mode::RenameWorkspace if app.pending_workspace_create_cwd.is_some() => "new workspace",
-        Mode::RenameWorkspace => "rename workspace",
-        Mode::RenameTab if app.creating_new_tab => "new tab",
-        Mode::RenameTab => "rename tab",
-        Mode::RenamePane => "rename pane",
+        Mode::RenameWorkspace if app.pending_workspace_create_cwd.is_some() => {
+            "新しいワークスペース"
+        }
+        Mode::RenameWorkspace => "ワークスペース名を変更",
+        Mode::RenameTab if app.creating_new_tab => "新しいタブ",
+        Mode::RenameTab => "タブ名を変更",
+        Mode::RenamePane => "ペイン名を変更",
         _ => return,
     };
 
@@ -164,11 +166,11 @@ pub(crate) fn new_linked_worktree_button_rects(inner: Rect) -> (Rect, Rect) {
         &[
             ActionButtonSpec {
                 hint: Some("↵"),
-                label: "create and open",
+                label: "作成して開く",
             },
             ActionButtonSpec {
                 hint: Some("esc"),
-                label: "cancel",
+                label: "キャンセル",
             },
         ],
         2,
@@ -183,9 +185,9 @@ pub(crate) fn remove_worktree_popup_rect(area: Rect) -> Option<Rect> {
 
 pub(crate) fn remove_worktree_button_rects(inner: Rect, force_confirmation: bool) -> (Rect, Rect) {
     let primary_label = if force_confirmation {
-        "delete anyway"
+        "強制的に削除"
     } else {
-        "remove"
+        "削除"
     };
     let rects = action_button_row_rects(
         inner,
@@ -196,7 +198,7 @@ pub(crate) fn remove_worktree_button_rects(inner: Rect, force_confirmation: bool
             },
             ActionButtonSpec {
                 hint: Some("esc"),
-                label: "cancel",
+                label: "キャンセル",
             },
         ],
         2,
@@ -243,11 +245,11 @@ pub(crate) fn open_existing_worktree_button_rects(inner: Rect) -> (Rect, Rect) {
         &[
             ActionButtonSpec {
                 hint: Some("↵"),
-                label: "open",
+                label: "開く",
             },
             ActionButtonSpec {
                 hint: Some("esc"),
-                label: "cancel",
+                label: "キャンセル",
             },
         ],
         2,
@@ -287,10 +289,10 @@ pub(super) fn render_new_linked_worktree_overlay(app: &AppState, frame: &mut Fra
     ])
     .areas::<8>(inner);
 
-    render_modal_header(frame, rows[0], "new worktree", &app.palette);
+    render_modal_header(frame, rows[0], "新しいワークツリー", &app.palette);
 
     frame.render_widget(
-        Paragraph::new(" branch").style(Style::default().fg(app.palette.overlay0)),
+        Paragraph::new(" ブランチ").style(Style::default().fg(app.palette.overlay0)),
         rows[1],
     );
     let input_rect = Rect::new(rows[2].x, rows[2].y, rows[2].width, 1);
@@ -298,7 +300,7 @@ pub(super) fn render_new_linked_worktree_overlay(app: &AppState, frame: &mut Fra
 
     let checkout = create.checkout_path.display().to_string();
     frame.render_widget(
-        Paragraph::new(" checkout").style(Style::default().fg(app.palette.overlay0)),
+        Paragraph::new(" チェックアウト").style(Style::default().fg(app.palette.overlay0)),
         rows[3],
     );
     frame.render_widget(
@@ -308,7 +310,7 @@ pub(super) fn render_new_linked_worktree_overlay(app: &AppState, frame: &mut Fra
 
     if create.creating {
         frame.render_widget(
-            Paragraph::new(" creating…").style(Style::default().fg(app.palette.overlay0)),
+            Paragraph::new(" 作成中…").style(Style::default().fg(app.palette.overlay0)),
             rows[5],
         );
     } else if let Some(error) = &create.error {
@@ -325,7 +327,7 @@ pub(super) fn render_new_linked_worktree_overlay(app: &AppState, frame: &mut Fra
         frame,
         create_rect,
         Some("↵"),
-        "create and open",
+        "作成して開く",
         Style::default()
             .fg(panel_contrast_fg(&app.palette))
             .bg(app.palette.accent)
@@ -414,9 +416,9 @@ pub(super) fn render_remove_worktree_overlay(app: &AppState, frame: &mut Frame, 
 
     let (remove_rect, cancel_rect) = remove_worktree_button_rects(inner, remove.force_confirmation);
     let remove_label = if remove.force_confirmation {
-        "delete anyway"
+        "強制的に削除"
     } else {
-        "remove"
+        "削除"
     };
     render_action_button(
         frame,
@@ -460,7 +462,7 @@ pub(super) fn render_open_existing_worktree_overlay(app: &AppState, frame: &mut 
     render_modal_header(
         frame,
         Rect::new(inner.x, inner.y, inner.width, 1),
-        "open worktree",
+        "ワークツリーを開く",
         &app.palette,
     );
     render_open_worktree_search(
@@ -557,7 +559,7 @@ pub(super) fn render_open_existing_worktree_overlay(app: &AppState, frame: &mut 
         frame,
         open_rect,
         Some("↵"),
-        "open",
+        "開く",
         Style::default()
             .fg(panel_contrast_fg(&app.palette))
             .bg(app.palette.accent)
@@ -660,7 +662,7 @@ fn confirm_close_overlay_text(
     let pane_text = if pane_count == 1 {
         "1 pane".to_string()
     } else {
-        format!("{pane_count} panes")
+        format!("{pane_count} ペイン")
     };
     let workspace_text = if closes_group {
         let count = group_member_indices.len();
@@ -774,7 +776,7 @@ pub(crate) fn confirm_close_button_rects(inner: Rect) -> (Rect, Rect) {
             },
             ActionButtonSpec {
                 hint: Some("esc"),
-                label: "cancel",
+                label: "キャンセル",
             },
         ],
         2,

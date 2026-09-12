@@ -60,14 +60,14 @@ fn pane_list(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--workspace" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --workspace");
+                    eprintln!("値が不足しています: --workspace");
                     return Ok(2);
                 };
                 workspace_id = Some(super::normalize_workspace_id(value));
                 index += 2;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -81,11 +81,11 @@ fn pane_list(args: &[String]) -> std::io::Result<i32> {
 
 fn pane_get(args: &[String]) -> std::io::Result<i32> {
     let Some(raw_pane_id) = args.first() else {
-        eprintln!("usage: herdr pane get <pane_id>");
+        eprintln!("使用法: herdr pane get <pane_id>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr pane get <pane_id>");
+        eprintln!("使用法: herdr pane get <pane_id>");
         return Ok(2);
     }
 
@@ -433,11 +433,11 @@ fn parse_pane_zoom_args(args: &[String]) -> Result<PaneZoomParams, String> {
 
 fn pane_rename(args: &[String]) -> std::io::Result<i32> {
     let Some(raw_pane_id) = args.first() else {
-        eprintln!("usage: herdr pane rename <pane_id> <label>|--clear");
+        eprintln!("使用法: herdr pane rename <pane_id> <label>|--clear");
         return Ok(2);
     };
     if args.len() < 2 {
-        eprintln!("usage: herdr pane rename <pane_id> <label>|--clear");
+        eprintln!("使用法: herdr pane rename <pane_id> <label>|--clear");
         return Ok(2);
     }
     let label = if args.len() == 2 && args[1] == "--clear" {
@@ -615,7 +615,7 @@ fn parse_pane_input_args(
 fn parse_right_click_target(value: &str) -> Result<PaneRightClickTarget, String> {
     match value {
         "herdr" => Ok(PaneRightClickTarget::Herdr),
-        "pane" => Ok(PaneRightClickTarget::Pane),
+        "ペイン" => Ok(PaneRightClickTarget::Pane),
         _ => Err(format!("invalid right-click target: {value}")),
     }
 }
@@ -1011,11 +1011,11 @@ fn parse_pane_direction(value: &str) -> Result<PaneDirection, String> {
 
 fn pane_close(args: &[String]) -> std::io::Result<i32> {
     let Some(raw_pane_id) = args.first() else {
-        eprintln!("usage: herdr pane close <pane_id>");
+        eprintln!("使用法: herdr pane close <pane_id>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr pane close <pane_id>");
+        eprintln!("使用法: herdr pane close <pane_id>");
         return Ok(2);
     }
 
@@ -1024,7 +1024,7 @@ fn pane_close(args: &[String]) -> std::io::Result<i32> {
 
 fn pane_send_text(args: &[String]) -> std::io::Result<i32> {
     if args.len() < 2 {
-        eprintln!("usage: herdr pane send-text <pane_id> <text>");
+        eprintln!("使用法: herdr pane send-text <pane_id> <text>");
         return Ok(2);
     }
 
@@ -1035,7 +1035,7 @@ fn pane_send_text(args: &[String]) -> std::io::Result<i32> {
 
 fn pane_send_keys(args: &[String]) -> std::io::Result<i32> {
     if args.len() < 2 {
-        eprintln!("usage: herdr pane send-keys <pane_id> <key> [key ...]");
+        eprintln!("使用法: herdr pane send-keys <pane_id> <key> [key ...]");
         return Ok(2);
     }
 
@@ -1046,7 +1046,7 @@ fn pane_send_keys(args: &[String]) -> std::io::Result<i32> {
 
 fn pane_run(args: &[String]) -> std::io::Result<i32> {
     if args.len() < 2 {
-        eprintln!("usage: herdr pane run <pane_id> <command>");
+        eprintln!("使用法: herdr pane run <pane_id> <command>");
         return Ok(2);
     }
 
@@ -1192,7 +1192,7 @@ fn pane_report_agent(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--source" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --source");
+                    eprintln!("値が不足しています: --source");
                     return Ok(2);
                 };
                 source = Some(value.clone());
@@ -1200,7 +1200,7 @@ fn pane_report_agent(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent");
+                    eprintln!("値が不足しています: --agent");
                     return Ok(2);
                 };
                 agent = Some(value.clone());
@@ -1208,7 +1208,7 @@ fn pane_report_agent(args: &[String]) -> std::io::Result<i32> {
             }
             "--state" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --state");
+                    eprintln!("値が不足しています: --state");
                     return Ok(2);
                 };
                 state = Some(super::parse_pane_agent_state(value)?);
@@ -1216,7 +1216,7 @@ fn pane_report_agent(args: &[String]) -> std::io::Result<i32> {
             }
             "--message" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --message");
+                    eprintln!("値が不足しています: --message");
                     return Ok(2);
                 };
                 message = Some(value.clone());
@@ -1224,7 +1224,7 @@ fn pane_report_agent(args: &[String]) -> std::io::Result<i32> {
             }
             "--seq" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --seq");
+                    eprintln!("値が不足しています: --seq");
                     return Ok(2);
                 };
                 seq = Some(super::parse_u64_flag("--seq", value)?);
@@ -1232,7 +1232,7 @@ fn pane_report_agent(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent-session-id" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent-session-id");
+                    eprintln!("値が不足しています: --agent-session-id");
                     return Ok(2);
                 };
                 agent_session_id = Some(value.clone());
@@ -1240,7 +1240,7 @@ fn pane_report_agent(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent-session-path" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent-session-path");
+                    eprintln!("値が不足しています: --agent-session-path");
                     return Ok(2);
                 };
                 agent_session_path = Some(value.clone());
@@ -1320,7 +1320,7 @@ fn pane_report_agent_session(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--source" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --source");
+                    eprintln!("値が不足しています: --source");
                     return Ok(2);
                 };
                 source = Some(value.clone());
@@ -1328,7 +1328,7 @@ fn pane_report_agent_session(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent");
+                    eprintln!("値が不足しています: --agent");
                     return Ok(2);
                 };
                 agent = Some(value.clone());
@@ -1336,7 +1336,7 @@ fn pane_report_agent_session(args: &[String]) -> std::io::Result<i32> {
             }
             "--seq" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --seq");
+                    eprintln!("値が不足しています: --seq");
                     return Ok(2);
                 };
                 seq = Some(super::parse_u64_flag("--seq", value)?);
@@ -1344,7 +1344,7 @@ fn pane_report_agent_session(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent-session-id" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent-session-id");
+                    eprintln!("値が不足しています: --agent-session-id");
                     return Ok(2);
                 };
                 agent_session_id = Some(value.clone());
@@ -1352,7 +1352,7 @@ fn pane_report_agent_session(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent-session-path" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent-session-path");
+                    eprintln!("値が不足しています: --agent-session-path");
                     return Ok(2);
                 };
                 agent_session_path = Some(value.clone());
@@ -1360,7 +1360,7 @@ fn pane_report_agent_session(args: &[String]) -> std::io::Result<i32> {
             }
             "--session-start-source" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --session-start-source");
+                    eprintln!("値が不足しています: --session-start-source");
                     return Ok(2);
                 };
                 session_start_source = Some(value.clone());
@@ -1412,7 +1412,7 @@ fn pane_report_agent_session(args: &[String]) -> std::io::Result<i32> {
 
 fn pane_release_agent(args: &[String]) -> std::io::Result<i32> {
     let Some(raw_pane_id) = args.first() else {
-        eprintln!("usage: herdr pane release-agent <pane_id> --source ID --agent LABEL [--seq N]");
+        eprintln!("使用法: herdr pane release-agent <pane_id> --source ID --agent LABEL [--seq N]");
         return Ok(2);
     };
 
@@ -1426,7 +1426,7 @@ fn pane_release_agent(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--source" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --source");
+                    eprintln!("値が不足しています: --source");
                     return Ok(2);
                 };
                 source = Some(value.clone());
@@ -1434,7 +1434,7 @@ fn pane_release_agent(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent");
+                    eprintln!("値が不足しています: --agent");
                     return Ok(2);
                 };
                 agent = Some(value.clone());
@@ -1442,14 +1442,14 @@ fn pane_release_agent(args: &[String]) -> std::io::Result<i32> {
             }
             "--seq" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --seq");
+                    eprintln!("値が不足しています: --seq");
                     return Ok(2);
                 };
                 seq = Some(super::parse_u64_flag("--seq", value)?);
                 index += 2;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -1477,7 +1477,7 @@ fn pane_release_agent(args: &[String]) -> std::io::Result<i32> {
 
 fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
     let Some(raw_pane_id) = args.first() else {
-        eprintln!("usage: herdr pane report-metadata <pane_id> --source ID [--agent LABEL] [--applies-to-source ID] [--title TEXT|--clear-title] [--display-agent TEXT|--clear-display-agent] [--state-label STATUS=TEXT] [--clear-state-labels] [--token NAME=VALUE] [--clear-token NAME] [--seq N] [--ttl-ms N]");
+        eprintln!("使用法: herdr pane report-metadata <pane_id> --source ID [--agent LABEL] [--applies-to-source ID] [--title TEXT|--clear-title] [--display-agent TEXT|--clear-display-agent] [--state-label STATUS=TEXT] [--clear-state-labels] [--token NAME=VALUE] [--clear-token NAME] [--seq N] [--ttl-ms N]");
         return Ok(2);
     };
 
@@ -1500,7 +1500,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--source" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --source");
+                    eprintln!("値が不足しています: --source");
                     return Ok(2);
                 };
                 source = Some(value.clone());
@@ -1508,7 +1508,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent");
+                    eprintln!("値が不足しています: --agent");
                     return Ok(2);
                 };
                 agent = Some(value.clone());
@@ -1516,7 +1516,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--applies-to-source" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --applies-to-source");
+                    eprintln!("値が不足しています: --applies-to-source");
                     return Ok(2);
                 };
                 applies_to_source = Some(value.clone());
@@ -1524,7 +1524,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--title" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --title");
+                    eprintln!("値が不足しています: --title");
                     return Ok(2);
                 };
                 title = Some(value.clone());
@@ -1536,7 +1536,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--display-agent" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --display-agent");
+                    eprintln!("値が不足しています: --display-agent");
                     return Ok(2);
                 };
                 display_agent = Some(value.clone());
@@ -1548,7 +1548,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--state-label" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --state-label");
+                    eprintln!("値が不足しています: --state-label");
                     return Ok(2);
                 };
                 let Some((status, label)) = value.split_once('=') else {
@@ -1572,7 +1572,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--token" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --token");
+                    eprintln!("値が不足しています: --token");
                     return Ok(2);
                 };
                 let (key, value) = match super::parse_token_assignment(value) {
@@ -1587,7 +1587,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--clear-token" => {
                 let Some(key) = args.get(index + 1) else {
-                    eprintln!("missing value for --clear-token");
+                    eprintln!("値が不足しています: --clear-token");
                     return Ok(2);
                 };
                 tokens.insert(key.clone(), None);
@@ -1595,7 +1595,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--seq" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --seq");
+                    eprintln!("値が不足しています: --seq");
                     return Ok(2);
                 };
                 seq = Some(super::parse_u64_flag("--seq", value)?);
@@ -1603,14 +1603,14 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--ttl-ms" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --ttl-ms");
+                    eprintln!("値が不足しています: --ttl-ms");
                     return Ok(2);
                 };
                 ttl_ms = Some(super::parse_u64_flag("--ttl-ms", value)?);
                 index += 2;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -1627,7 +1627,7 @@ fn pane_report_metadata(args: &[String]) -> std::io::Result<i32> {
         .as_deref()
         .is_some_and(|source| source.trim().is_empty())
     {
-        eprintln!("missing value for --applies-to-source");
+        eprintln!("値が不足しています: --applies-to-source");
         return Ok(2);
     }
     if title.is_some() && clear_title
@@ -1727,7 +1727,7 @@ mod tests {
     #[test]
     fn parse_pane_split_args_accepts_pane_right_click_target() {
         let params = parse_pane_split_args(
-            &args(&["--direction", "right", "--right-click", "pane"]),
+            &args(&["--direction", "right", "--right-click", "ペイン"]),
             None,
         )
         .unwrap();
@@ -1738,7 +1738,7 @@ mod tests {
     #[test]
     fn parse_pane_input_args_requires_and_uses_calling_pane() {
         let params = parse_pane_input_args(
-            &args(&["--current", "--right-click", "pane"]),
+            &args(&["--current", "--right-click", "ペイン"]),
             Some("issue-1:p1"),
         )
         .unwrap();
@@ -1746,19 +1746,19 @@ mod tests {
         assert_eq!(params.pane_id, "issue-1:p1");
         assert_eq!(params.right_click, PaneRightClickTarget::Pane);
         assert!(
-            parse_pane_input_args(&args(&["--current", "--right-click", "pane"]), None).is_err()
+            parse_pane_input_args(&args(&["--current", "--right-click", "ペイン"]), None).is_err()
         );
     }
 
     #[test]
     fn parse_pane_input_args_rejects_conflicting_selectors() {
         assert!(parse_pane_input_args(
-            &args(&["pane-a", "--pane", "pane-b", "--right-click", "pane"]),
+            &args(&["pane-a", "--pane", "pane-b", "--right-click", "ペイン"]),
             None,
         )
         .is_err());
         assert!(parse_pane_input_args(
-            &args(&["--pane", "pane-a", "--current", "--right-click", "pane",]),
+            &args(&["--pane", "pane-a", "--current", "--right-click", "ペイン",]),
             Some("pane-b"),
         )
         .is_err());

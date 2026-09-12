@@ -12,11 +12,11 @@ use crate::app::AppState;
 fn prefix_rhs_label(bindings: &crate::config::ActionKeybinds) -> String {
     bindings
         .prefix_rhs_label()
-        .unwrap_or_else(|| "unset".to_string())
+        .unwrap_or_else(|| "未設定".to_string())
 }
 
 fn keybind_label(bindings: &crate::config::ActionKeybinds) -> String {
-    bindings.label().unwrap_or_else(|| "unset".to_string())
+    bindings.label().unwrap_or_else(|| "未設定".to_string())
 }
 
 fn render_bottom_bar(frame: &mut Frame, area: Rect, line: Line<'_>, bg: ratatui::style::Color) {
@@ -46,13 +46,13 @@ pub(super) fn render_prefix_overlay(app: &AppState, frame: &mut Frame, area: Rec
         Span::styled(" PREFIX ", mode_style),
         Span::raw(" "),
         Span::styled("esc", key),
-        Span::styled(" cancel  ", dim),
+        Span::styled(" キャンセル  ", dim),
         Span::styled(prefix, key),
-        Span::styled(" send prefix  ", dim),
+        Span::styled(" プレフィックス送信  ", dim),
         Span::styled(workspace_picker, key),
-        Span::styled(" workspace nav  ", dim),
+        Span::styled(" ワークスペース移動  ", dim),
         Span::styled(help, key),
-        Span::styled(" keybinds", dim),
+        Span::styled(" キーバインド", dim),
     ]);
 
     let overlay_y = area.y + area.height.saturating_sub(1);
@@ -84,13 +84,13 @@ pub(super) fn render_copy_mode_overlay(app: &AppState, frame: &mut Frame, area: 
             Span::styled(marker, key),
             Span::styled(prompt.query.clone(), Style::default().fg(app.palette.text)),
             Span::styled("█", key),
-            Span::styled("  enter search  esc cancel", dim),
+            Span::styled("  Enter 検索  Esc キャンセル", dim),
         ])
     } else {
         let select = if copy_mode.selection.is_some() {
-            "selecting"
+            "選択中"
         } else {
-            "select"
+            "選択"
         };
         let match_status = copy_mode
             .search
@@ -100,23 +100,23 @@ pub(super) fn render_copy_mode_overlay(app: &AppState, frame: &mut Frame, area: 
             .unwrap_or_default();
         let (exit_keys, exit_label) =
             if copy_mode.search.query.is_empty() && copy_mode.selection.is_none() {
-                ("q/esc", " exit")
+                ("q/esc", " 終了")
             } else {
-                ("esc", " clear  q exit")
+                ("esc", " クリア  q 終了")
             };
         Line::from(vec![
             Span::styled(" COPY ", mode_style),
             Span::raw(" "),
             Span::styled("h/j/k/l w/b/e { }", key),
-            Span::styled(" move  ", dim),
+            Span::styled(" 移動  ", dim),
             Span::styled("/ ?", key),
-            Span::styled(" search  ", dim),
+            Span::styled(" 検索  ", dim),
             Span::styled("n/N", key),
             Span::styled(format!(" repeat{match_status}  "), dim),
             Span::styled("v/space", key),
             Span::styled(format!(" {select}  "), dim),
             Span::styled("y/enter", key),
-            Span::styled(" copy  ", dim),
+            Span::styled(" コピー  ", dim),
             Span::styled(exit_keys, key),
             Span::styled(exit_label, dim),
         ])
@@ -160,29 +160,29 @@ pub(super) fn render_navigate_overlay(app: &AppState, frame: &mut Frame, area: R
         Span::styled("esc", key),
         Span::styled(" back  ", dim),
         Span::styled(workspace_nav, key),
-        Span::styled(" ws  ", dim),
+        Span::styled(" ワークスペース  ", dim),
         Span::styled("⇥", key),
-        Span::styled(" pane  ", dim),
+        Span::styled(" ペイン  ", dim),
         Span::styled(goto, key),
-        Span::styled(" navigator  ", dim),
+        Span::styled(" ナビゲーター  ", dim),
         Span::styled(new_tab, key),
-        Span::styled(" new tab  ", dim),
+        Span::styled(" 新しいタブ  ", dim),
         Span::styled(split_vertical, key),
-        Span::styled(" split│  ", dim),
+        Span::styled(" 分割│  ", dim),
         Span::styled(split_horizontal, key),
-        Span::styled(" split─  ", dim),
+        Span::styled(" 分割─  ", dim),
         Span::styled(close_pane, key),
-        Span::styled(" close  ", dim),
+        Span::styled(" 閉じる  ", dim),
         Span::styled(zoom, key),
-        Span::styled(" zoom  ", dim),
+        Span::styled(" ズーム  ", dim),
         Span::styled(resize, key),
-        Span::styled(" resize  ", dim),
+        Span::styled(" サイズ変更  ", dim),
         Span::styled(help, key),
-        Span::styled(" keybinds  ", dim),
+        Span::styled(" キーバインド  ", dim),
         Span::styled(settings, key),
-        Span::styled(" settings  ", dim),
+        Span::styled(" 設定  ", dim),
         Span::styled(detach, key),
-        Span::styled(" detach", dim),
+        Span::styled(" デタッチ", dim),
     ]);
 
     let overlay_y = area.y + area.height.saturating_sub(1);
@@ -191,7 +191,7 @@ pub(super) fn render_navigate_overlay(app: &AppState, frame: &mut Frame, area: R
 
     if app.update_available.is_some() {
         let status = Line::from(vec![Span::styled(
-            " update ready",
+            " アップデート準備完了",
             Style::default()
                 .fg(app.palette.accent)
                 .add_modifier(Modifier::BOLD),
@@ -271,11 +271,11 @@ pub(super) fn render_resize_overlay(app: &AppState, frame: &mut Frame, area: Rec
         Span::styled(" RESIZE ", mode_style),
         Span::raw("  "),
         Span::styled("h/l", key),
-        Span::styled(" width  ", dim),
+        Span::styled(" 幅  ", dim),
         Span::styled("j/k", key),
-        Span::styled(" height  ", dim),
+        Span::styled(" 高さ  ", dim),
         Span::styled("esc", key),
-        Span::styled(" done", dim),
+        Span::styled(" 完了", dim),
     ]);
 
     let overlay_y = area.y + area.height.saturating_sub(1);
