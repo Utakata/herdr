@@ -7,7 +7,7 @@ pub(super) struct ProtocolMismatchReported;
 
 impl fmt::Display for ProtocolMismatchReported {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.write_str("protocol mismatch was already reported")
+        f.write_str("プロトコルの不一致はすでに報告されています")
     }
 }
 
@@ -25,11 +25,11 @@ pub(super) fn mismatch_response(
 
     let message = if client_protocol > server_protocol {
         format!(
-            "client protocol {client_protocol} is newer than server protocol {server_protocol}; restart the Herdr server before using this command. {restart_guidance}"
+            "クライアントプロトコル {client_protocol} はサーバープロトコル {server_protocol} より新しいです。このコマンドを使用する前にHerdrサーバーを再起動してください。{restart_guidance}"
         )
     } else {
         format!(
-            "client protocol {client_protocol} is older than server protocol {server_protocol}; upgrade the Herdr client before using this command"
+            "クライアントプロトコル {client_protocol} はサーバープロトコル {server_protocol} より古いです。このコマンドを使用する前にHerdrクライアントをアップグレードしてください"
         )
     };
 

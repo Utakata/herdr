@@ -33,7 +33,7 @@ pub(super) fn run_plugin_command(args: &[String]) -> std::io::Result<i32> {
         "disable" => plugin_set_enabled(&args[1..], false),
         "action" => run_plugin_action_command(&args[1..]),
         "log" | "logs" => plugin_log_list(&args[1..]),
-        "pane" => run_plugin_pane_command(&args[1..]),
+        "ペイン" => run_plugin_pane_command(&args[1..]),
         "help" | "--help" | "-h" => {
             print_plugin_help();
             Ok(0)
@@ -47,7 +47,7 @@ pub(super) fn run_plugin_command(args: &[String]) -> std::io::Result<i32> {
 
 fn plugin_link(args: &[String]) -> std::io::Result<i32> {
     let Some(path) = args.first() else {
-        eprintln!("usage: herdr plugin link <path> [--disabled]");
+        eprintln!("使用法: herdr plugin link <path> [--disabled]");
         return Ok(2);
     };
     let path = normalize_plugin_path_arg(path)?;
@@ -64,7 +64,7 @@ fn plugin_link(args: &[String]) -> std::io::Result<i32> {
                 index += 1;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -87,11 +87,11 @@ fn plugin_link(args: &[String]) -> std::io::Result<i32> {
 
 fn plugin_config_dir_command(args: &[String]) -> std::io::Result<i32> {
     let Some(plugin_id) = args.first() else {
-        eprintln!("usage: herdr plugin config-dir <plugin_id>");
+        eprintln!("使用法: herdr plugin config-dir <plugin_id>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr plugin config-dir <plugin_id>");
+        eprintln!("使用法: herdr plugin config-dir <plugin_id>");
         return Ok(2);
     }
     let path = crate::plugin_paths::plugin_config_dir(plugin_id);
@@ -117,7 +117,7 @@ fn plugin_list(args: &[String]) -> std::io::Result<i32> {
                 plugin_id = Some(value);
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -139,11 +139,11 @@ fn plugin_list(args: &[String]) -> std::io::Result<i32> {
 
 fn plugin_unlink(args: &[String]) -> std::io::Result<i32> {
     let Some(plugin_id) = args.first() else {
-        eprintln!("usage: herdr plugin unlink <plugin_id>");
+        eprintln!("使用法: herdr plugin unlink <plugin_id>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr plugin unlink <plugin_id>");
+        eprintln!("使用法: herdr plugin unlink <plugin_id>");
         return Ok(2);
     }
     print_plugin_response(Method::PluginUnlink(PluginUnlinkParams {
@@ -153,7 +153,7 @@ fn plugin_unlink(args: &[String]) -> std::io::Result<i32> {
 
 fn plugin_install(args: &[String]) -> std::io::Result<i32> {
     let Some(source_arg) = args.first() else {
-        eprintln!("usage: herdr plugin install <owner>/<repo>[/subdir...] [--ref REF] [--yes]");
+        eprintln!("使用法: herdr plugin install <owner>/<repo>[/subdir...] [--ref REF] [--yes]");
         return Ok(2);
     };
     let source = match GithubPluginSource::parse(source_arg) {
@@ -179,7 +179,7 @@ fn plugin_install(args: &[String]) -> std::io::Result<i32> {
                 index += 1;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -262,11 +262,11 @@ fn plugin_install(args: &[String]) -> std::io::Result<i32> {
 
 fn plugin_uninstall(args: &[String]) -> std::io::Result<i32> {
     let Some(target) = args.first() else {
-        eprintln!("usage: herdr plugin uninstall <plugin_id|owner/repo[/subdir...]>");
+        eprintln!("使用法: herdr plugin uninstall <plugin_id|owner/repo[/subdir...]>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr plugin uninstall <plugin_id|owner/repo[/subdir...]>");
+        eprintln!("使用法: herdr plugin uninstall <plugin_id|owner/repo[/subdir...]>");
         return Ok(2);
     }
 
@@ -374,7 +374,7 @@ fn plugin_log_list(args: &[String]) -> std::io::Result<i32> {
                 limit = Some(parsed);
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -417,7 +417,7 @@ fn plugin_action_list(args: &[String]) -> std::io::Result<i32> {
                 plugin_id = Some(value);
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -430,7 +430,7 @@ fn plugin_action_list(args: &[String]) -> std::io::Result<i32> {
 
 fn plugin_action_invoke(args: &[String]) -> std::io::Result<i32> {
     let Some(action_id) = args.first() else {
-        eprintln!("usage: herdr plugin action invoke <action_id> [--plugin ID]");
+        eprintln!("使用法: herdr plugin action invoke <action_id> [--plugin ID]");
         return Ok(2);
     };
     let mut plugin_id = None;
@@ -444,7 +444,7 @@ fn plugin_action_invoke(args: &[String]) -> std::io::Result<i32> {
                 plugin_id = Some(value);
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -598,7 +598,7 @@ fn plugin_pane_open(args: &[String]) -> std::io::Result<i32> {
                 index += 1;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -640,11 +640,11 @@ fn parse_popup_dimension(value: &str, flag: &str) -> Option<PopupSize> {
 
 fn plugin_pane_focus(args: &[String]) -> std::io::Result<i32> {
     let Some(pane_id) = args.first() else {
-        eprintln!("usage: herdr plugin pane focus <pane_id>");
+        eprintln!("使用法: herdr plugin pane focus <pane_id>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr plugin pane focus <pane_id>");
+        eprintln!("使用法: herdr plugin pane focus <pane_id>");
         return Ok(2);
     }
     print_plugin_response(Method::PluginPaneFocus(PluginPaneFocusParams {
@@ -654,11 +654,11 @@ fn plugin_pane_focus(args: &[String]) -> std::io::Result<i32> {
 
 fn plugin_pane_close(args: &[String]) -> std::io::Result<i32> {
     let Some(pane_id) = args.first() else {
-        eprintln!("usage: herdr plugin pane close <pane_id>");
+        eprintln!("使用法: herdr plugin pane close <pane_id>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr plugin pane close <pane_id>");
+        eprintln!("使用法: herdr plugin pane close <pane_id>");
         return Ok(2);
     }
     print_plugin_response(Method::PluginPaneClose(PluginPaneCloseParams {
@@ -668,7 +668,7 @@ fn plugin_pane_close(args: &[String]) -> std::io::Result<i32> {
 
 fn required_value(args: &[String], index: &mut usize, flag: &str) -> Option<String> {
     let Some(value) = args.get(*index + 1) else {
-        eprintln!("missing value for {flag}");
+        eprintln!("値が不足しています: {flag}");
         return None;
     };
     *index += 2;
@@ -1583,7 +1583,7 @@ fn remove_managed_plugin_files(plugin: &InstalledPluginInfo) -> std::io::Result<
         )));
     }
     std::fs::remove_dir_all(&path)
-        .map_err(|err| plugin_checkout_lifecycle_error("remove", &path, err))
+        .map_err(|err| plugin_checkout_lifecycle_error("削除", &path, err))
 }
 
 fn plugin_checkout_lifecycle_error(operation: &str, path: &Path, err: io::Error) -> io::Error {

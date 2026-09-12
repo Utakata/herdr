@@ -965,29 +965,29 @@ pub(super) fn render_empty(app: &AppState, frame: &mut Frame, area: Rect) {
         Line::from(""),
         Line::from(""),
         Line::from(Span::styled(
-            "  No workspaces yet",
+            "  まだワークスペースがありません",
             Style::default().fg(p.overlay0),
         )),
         Line::from(""),
         Line::from(Span::styled(
-            "  A workspace is one project context.",
+            "  ワークスペースは1つのプロジェクトのコンテキストです。",
             Style::default().fg(p.overlay1),
         )),
         Line::from(Span::styled(
-            "  Its root pane (top-left) sets the default repo or folder name.",
+            "  左上のルートペインがデフォルトのリポジトリまたはフォルダ名を設定します。",
             Style::default().fg(p.overlay1),
         )),
         Line::from(""),
         Line::from(vec![
-            Span::styled("  Press ", Style::default().fg(p.overlay0)),
+            Span::styled("  作成するには ", Style::default().fg(p.overlay0)),
             Span::styled(
                 app.keybinds
                     .new_workspace
                     .label()
-                    .unwrap_or_else(|| "unset".to_string()),
+                    .unwrap_or_else(|| "未設定".to_string()),
                 Style::default().fg(p.accent).add_modifier(Modifier::BOLD),
             ),
-            Span::styled(" to create one", Style::default().fg(p.overlay0)),
+            Span::styled(" を押してください", Style::default().fg(p.overlay0)),
         ]),
     ];
     frame.render_widget(

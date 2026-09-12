@@ -4,27 +4,30 @@ use clap::{Arg, ArgAction, ArgGroup, Command, ValueHint};
 
 pub(super) fn command() -> Command {
     let command = Command::new("herdr")
-        .about("terminal workspace manager for AI coding agents")
+        .about("AIコーディングエージェントのためのターミナルワークスペースマネージャー")
         .disable_help_flag(true)
         .disable_version_flag(true)
         .arg(help_flag())
-        .arg(flag("no-session").help("Run monolithically without server/client session mode"))
-        .arg(option("session", "NAME").help("Use or create a named persistent session"))
-        .arg(option("remote", "TARGET").help("Attach through SSH to a remote Herdr server"))
+        .arg(
+            flag("no-session")
+                .help("サーバー/クライアントセッションモードなしでモノリシックに実行する"),
+        )
+        .arg(option("session", "NAME").help("名前付きの永続セッションを使用または作成する"))
+        .arg(option("remote", "TARGET").help("SSH経由でリモートのHerdrサーバーにアタッチする"))
         .arg(
             option("remote-keybindings", "MODE")
                 .value_parser(["local", "server"])
-                .help("Choose local or server keybindings for remote attach"),
+                .help("リモートアタッチ時にローカルまたはサーバーのキーバインドを選択する"),
         )
-        .arg(flag("handoff").help("Opt into live handoff for update or remote attach"))
-        .arg(flag("default-config").help("Print default configuration and exit"))
-        .arg(flag("skill").help("Print the agent skill file and exit"))
+        .arg(flag("handoff").help("更新またはリモートアタッチのためのライブハンドオフを有効にする"))
+        .arg(flag("default-config").help("デフォルトの設定を出力して終了する"))
+        .arg(flag("skill").help("エージェントのスキルファイルを出力して終了する"))
         .arg(
             Arg::new("version")
                 .short('V')
                 .long("version")
                 .action(ArgAction::SetTrue)
-                .help("Print version and exit"),
+                .help("バージョンを出力して終了する"),
         )
         .subcommand(completion_command())
         .subcommand(update_command())
@@ -112,48 +115,48 @@ fn write_requested_help(
 fn completion_command() -> Command {
     Command::new("completion")
         .visible_alias("completions")
-        .about("Generate shell completion scripts")
+        .about("シェルの補完スクリプトを生成する")
         .arg(
             Arg::new("shell")
                 .value_name("SHELL")
                 .required(true)
                 .value_parser(super::completion::SUPPORTED_SHELLS)
-                .help("Shell to generate completions for"),
+                .help("補完を生成するシェル"),
         )
 }
 
 fn update_command() -> Command {
     Command::new("update")
-        .about("Download and install the latest version")
-        .arg(flag("handoff").help("Try live handoff after installing"))
+        .about("最新バージョンをダウンロードしてインストールする")
+        .arg(flag("handoff").help("インストール後にライブハンドオフを試みる"))
 }
 
 fn status_command() -> Command {
     Command::new("status")
-        .about("Show local client and running server status")
+        .about("ローカルクライアントおよび実行中のサーバのステータスを表示する")
         .arg(json_flag())
         .subcommand(
             Command::new("server")
-                .about("Show running server status")
+                .about("実行中のサーバーのステータスを表示する")
                 .arg(json_flag()),
         )
         .subcommand(
             Command::new("client")
-                .about("Show local client status")
+                .about("ローカルクライアントのステータスを表示する")
                 .arg(json_flag()),
         )
 }
 
 fn config_command() -> Command {
     Command::new("config")
-        .about("Manage local configuration")
-        .subcommand(Command::new("check").about("Validate config.toml and print diagnostics"))
-        .subcommand(Command::new("reset-keys").about("Reset custom keybindings"))
+        .about("ローカル設定を管理する")
+        .subcommand(Command::new("check").about("config.tomlを検証して診断情報を出力する"))
+        .subcommand(Command::new("reset-keys").about("カスタムキーバインドをリセットする"))
 }
 
 fn channel_command() -> Command {
     Command::new("channel")
-        .about("Manage stable and preview update channels")
+        .about("安定版（stable）およびプレビュー版の更新チャネルを管理する")
         .subcommand(Command::new("show").about("Print the configured update channel"))
         .subcommand(
             Command::new("set").about("Choose the update channel").arg(
@@ -199,8 +202,8 @@ fn api_command() -> Command {
 }
 
 fn workspace_command() -> Command {
-    Command::new("workspace")
-        .about("Manage workspaces over the socket API")
+    Command::new("ワークスペース")
+        .about("ソケットAPIを介してワークスペースを管理する")
         .subcommand(Command::new("list").about("List workspaces"))
         .subcommand(
             Command::new("create")
@@ -215,7 +218,7 @@ fn workspace_command() -> Command {
         .subcommand(id_command("focus", "workspace_id", "Focus a workspace"))
         .subcommand(
             Command::new("rename")
-                .about("Rename a workspace")
+                .about("ワークスペース名を変更する")
                 .arg(required("workspace_id", "WORKSPACE_ID"))
                 .arg(required("label", "LABEL").num_args(1..)),
         )
@@ -238,14 +241,14 @@ fn worktree_command() -> Command {
         .subcommand(
             Command::new("list")
                 .about("List worktree workspaces")
-                .arg(option("workspace", "ID"))
+                .arg(option("ワークスペース", "ID"))
                 .arg(path_option("cwd", "PATH"))
                 .arg(flag("trust-repository")),
         )
         .subcommand(
             Command::new("create")
                 .about("Create and open a Git worktree")
-                .arg(option("workspace", "ID"))
+                .arg(option("ワークスペース", "ID"))
                 .arg(path_option("cwd", "PATH"))
                 .arg(option("branch", "NAME"))
                 .arg(option("base", "REF"))
@@ -258,7 +261,7 @@ fn worktree_command() -> Command {
         .subcommand(
             Command::new("open")
                 .about("Open an existing Git worktree")
-                .arg(option("workspace", "ID"))
+                .arg(option("ワークスペース", "ID"))
                 .arg(path_option("cwd", "PATH"))
                 .arg(path_option("path", "PATH"))
                 .arg(option("branch", "NAME"))
@@ -268,9 +271,9 @@ fn worktree_command() -> Command {
                 .arg(flag("trust-repository")),
         )
         .subcommand(
-            Command::new("remove")
+            Command::new("削除")
                 .about("Remove a worktree checkout")
-                .arg(option("workspace", "ID"))
+                .arg(option("ワークスペース", "ID"))
                 .arg(flag("force"))
                 .arg(flag("trust-repository")),
         )
@@ -278,16 +281,16 @@ fn worktree_command() -> Command {
 
 fn tab_command() -> Command {
     Command::new("tab")
-        .about("Manage tabs over the socket API")
+        .about("ソケットAPIを介してタブを管理する")
         .subcommand(
             Command::new("list")
                 .about("List tabs")
-                .arg(option("workspace", "WORKSPACE_ID")),
+                .arg(option("ワークスペース", "WORKSPACE_ID")),
         )
         .subcommand(
             Command::new("create")
                 .about("Create a tab")
-                .arg(option("workspace", "WORKSPACE_ID"))
+                .arg(option("ワークスペース", "WORKSPACE_ID"))
                 .arg(path_option("cwd", "PATH"))
                 .arg(option("label", "TEXT"))
                 .arg(env_option())
@@ -298,7 +301,7 @@ fn tab_command() -> Command {
         .subcommand(id_command("focus", "tab_id", "Focus a tab"))
         .subcommand(
             Command::new("rename")
-                .about("Rename a tab")
+                .about("タブ名を変更する")
                 .arg(required("tab_id", "TAB_ID"))
                 .arg(required("label", "LABEL").num_args(1..)),
         )
@@ -325,7 +328,7 @@ fn notification_command() -> Command {
 
 fn agent_command() -> Command {
     Command::new("agent")
-        .about("Control and inspect agent panes")
+        .about("エージェントペインを制御および検査する")
         .subcommand(Command::new("list").about("List agents"))
         .subcommand(id_command("get", "target", "Show an agent"))
         .subcommand(
@@ -373,7 +376,7 @@ fn agent_command() -> Command {
         )
         .subcommand(
             Command::new("rename")
-                .about("Rename an agent")
+                .about("エージェント名を変更する")
                 .override_usage("herdr agent rename <TARGET> <NAME>|--clear")
                 .arg(required("target", "TARGET"))
                 .arg(Arg::new("name").value_name("NAME"))
@@ -422,7 +425,7 @@ fn agent_command() -> Command {
                         .help("Supported agent kind and canonical executable"),
                 )
                 .arg(
-                    option("pane", "ID")
+                    option("ペイン", "ID")
                         .required(true)
                         .help("Existing pane at an interactive shell prompt"),
                 )
@@ -465,12 +468,12 @@ pub(super) fn agent_kind_values() -> Vec<&'static str> {
 }
 
 fn pane_command() -> Command {
-    Command::new("pane")
-        .about("Control terminal panes")
+    Command::new("ペイン")
+        .about("ターミナルペインを制御する")
         .subcommand(
             Command::new("list")
                 .about("List panes")
-                .arg(option("workspace", "WORKSPACE_ID")),
+                .arg(option("ワークスペース", "WORKSPACE_ID")),
         )
         .subcommand(
             Command::new("current")
@@ -533,7 +536,7 @@ fn pane_command() -> Command {
         )
         .subcommand(
             Command::new("rename")
-                .about("Rename a pane")
+                .about("ペイン名を変更する")
                 .arg(required("pane_id", "PANE_ID"))
                 .arg(Arg::new("label").value_name("LABEL").num_args(1..))
                 .arg(flag("clear")),
@@ -545,20 +548,20 @@ fn pane_command() -> Command {
                 .args(current_pane_args())
                 .arg(
                     option("right-click", "TARGET")
-                        .value_parser(["herdr", "pane"])
+                        .value_parser(["herdr", "ペイン"])
                         .required(true),
                 ),
         )
         .subcommand(
             Command::new("split")
-                .about("Split a pane")
+                .about("ペインを分割する")
                 .arg(Arg::new("pane_id").value_name("PANE_ID"))
                 .args(current_pane_args())
                 .arg(split_direction_option())
                 .arg(option("ratio", "FLOAT"))
                 .arg(path_option("cwd", "PATH"))
                 .arg(env_option())
-                .arg(option("right-click", "TARGET").value_parser(["herdr", "pane"]))
+                .arg(option("right-click", "TARGET").value_parser(["herdr", "ペイン"]))
                 .arg(flag("focus"))
                 .arg(flag("no-focus")),
         )
@@ -579,7 +582,7 @@ fn pane_command() -> Command {
                 .arg(option("target-pane", "ID"))
                 .arg(option("ratio", "FLOAT"))
                 .arg(flag("new-tab"))
-                .arg(option("workspace", "ID"))
+                .arg(option("ワークスペース", "ID"))
                 .arg(flag("new-workspace"))
                 .arg(option("label", "TEXT"))
                 .arg(option("tab-label", "TEXT"))
@@ -814,17 +817,17 @@ fn plugin_command() -> Command {
         )
         .subcommand(
             Command::new("enable")
-                .about("Enable a plugin")
+                .about("プラグインを有効にする")
                 .arg(required("plugin_id", "PLUGIN_ID")),
         )
         .subcommand(
             Command::new("disable")
-                .about("Disable a plugin")
+                .about("プラグインを無効にする")
                 .arg(required("plugin_id", "PLUGIN_ID")),
         )
         .subcommand(
             Command::new("list")
-                .about("List installed plugins")
+                .about("インストール済みのプラグインを一覧表示する")
                 .arg(option("plugin", "ID"))
                 .arg(json_flag()),
         )
@@ -860,7 +863,7 @@ fn plugin_command() -> Command {
                 ),
         )
         .subcommand(
-            Command::new("pane")
+            Command::new("ペイン")
                 .about("Manage plugin-owned panes")
                 .subcommand(
                     Command::new("open")
@@ -871,7 +874,7 @@ fn plugin_command() -> Command {
                             option("placement", "PLACEMENT")
                                 .value_parser(["overlay", "split", "tab", "zoomed"]),
                         )
-                        .arg(option("workspace", "ID"))
+                        .arg(option("ワークスペース", "ID"))
                         .arg(option("target-pane", "PANE"))
                         .arg(split_direction_option())
                         .arg(path_option("cwd", "PATH"))
@@ -893,7 +896,7 @@ fn plugin_command() -> Command {
 }
 
 fn current_pane_args() -> [Arg; 2] {
-    [option("pane", "ID"), flag("current")]
+    [option("ペイン", "ID"), flag("current")]
 }
 
 fn integration_target_arg() -> Arg {
@@ -1146,17 +1149,17 @@ mod tests {
     #[test]
     fn spec_marks_runtime_required_options_as_required() {
         for (path, options) in [
-            (&["workspace", "report-metadata"][..], &["source"][..]),
-            (&["pane", "neighbor"][..], &["direction"][..]),
-            (&["pane", "focus"][..], &["direction"][..]),
-            (&["pane", "resize"][..], &["direction"][..]),
-            (&["pane", "report-agent"][..], &["source", "agent"][..]),
+            (&["ワークスペース", "report-metadata"][..], &["source"][..]),
+            (&["ペイン", "neighbor"][..], &["direction"][..]),
+            (&["ペイン", "focus"][..], &["direction"][..]),
+            (&["ペイン", "resize"][..], &["direction"][..]),
+            (&["ペイン", "report-agent"][..], &["source", "agent"][..]),
             (
-                &["pane", "report-agent-session"][..],
+                &["ペイン", "report-agent-session"][..],
                 &["source", "agent"][..],
             ),
-            (&["pane", "release-agent"][..], &["source", "agent"][..]),
-            (&["pane", "report-metadata"][..], &["source"][..]),
+            (&["ペイン", "release-agent"][..], &["source", "agent"][..]),
+            (&["ペイン", "report-metadata"][..], &["source"][..]),
         ] {
             let cmd = command_path(&super::command(), path).clone();
             for option in options {
@@ -1217,7 +1220,7 @@ mod tests {
     #[test]
     fn worktree_json_compatibility_flag_stays_out_of_public_spec() {
         let cmd = super::command();
-        for subcommand in ["list", "create", "open", "remove"] {
+        for subcommand in ["list", "create", "開く", "削除"] {
             let worktree_command = command_path(&cmd, &["worktree", subcommand]);
             assert!(
                 !has_option(worktree_command, "json"),
@@ -1229,7 +1232,7 @@ mod tests {
     #[test]
     fn spec_includes_nested_plugin_pane_open_options() {
         let cmd = super::command();
-        let open = command_path(&cmd, &["plugin", "pane", "open"]);
+        let open = command_path(&cmd, &["plugin", "ペイン", "open"]);
         assert!(open
             .get_arguments()
             .any(|arg| arg.get_long() == Some("entrypoint")));
@@ -1266,7 +1269,7 @@ mod tests {
             .get_subcommands()
             .all(|subcommand| subcommand.get_name() != "send"));
 
-        let pane = command_path(&cmd, &["pane"]);
+        let pane = command_path(&cmd, &["ペイン"]);
         assert!(pane
             .get_subcommands()
             .any(|subcommand| subcommand.get_name() == "wait-output"));
@@ -1275,14 +1278,14 @@ mod tests {
     #[test]
     fn spec_includes_pane_read_raw_flag() {
         let cmd = super::command();
-        let pane_read = command_path(&cmd, &["pane", "read"]);
+        let pane_read = command_path(&cmd, &["ペイン", "read"]);
         assert!(has_option(pane_read, "raw"));
     }
 
     #[test]
     fn spec_matches_pane_split_direction_flag() {
         let cmd = super::command();
-        let pane_split = command_path(&cmd, &["pane", "split"]);
+        let pane_split = command_path(&cmd, &["ペイン", "split"]);
         assert!(has_option(pane_split, "direction"));
         assert!(!has_option(pane_split, "split"));
         assert_eq!(option_values(pane_split, "direction"), ["right", "down"]);
@@ -1299,8 +1302,16 @@ mod tests {
                 .map(crate::detect::agent_label)
                 .map(str::to_string)
         );
-        assert!(has_option(agent_start, "pane"));
-        for legacy in ["cwd", "workspace", "tab", "split", "focus", "env", "argv"] {
+        assert!(has_option(agent_start, "ペイン"));
+        for legacy in [
+            "cwd",
+            "ワークスペース",
+            "tab",
+            "split",
+            "focus",
+            "env",
+            "argv",
+        ] {
             assert!(!has_option(agent_start, legacy), "legacy option --{legacy}");
         }
         assert!(agent_start
@@ -1323,7 +1334,7 @@ mod tests {
 
     #[test]
     fn agent_resources_appear_on_command_groups_but_not_leaf_commands() {
-        for group in ["agent", "pane", "workspace", "terminal"] {
+        for group in ["agent", "ペイン", "ワークスペース", "terminal"] {
             let help = long_help(&[group]);
             assert!(
                 help.contains(super::super::AGENT_HELP_FOOTER),
@@ -1350,7 +1361,7 @@ mod tests {
             "agent start is missing its next-step hint: {agent_start}"
         );
 
-        let pane_send_text = long_help(&["pane", "send-text"]);
+        let pane_send_text = long_help(&["ペイン", "send-text"]);
         assert!(
             pane_send_text.contains(
                 "next: herdr pane run <PANE_ID> <COMMAND> sends text and Enter in one call"

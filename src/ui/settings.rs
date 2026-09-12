@@ -57,7 +57,7 @@ pub(super) fn render_settings_overlay(app: &AppState, frame: &mut Frame, area: R
 
     frame.render_widget(
         Paragraph::new(Line::from(vec![Span::styled(
-            " settings",
+            " 設定",
             Style::default().fg(p.text).add_modifier(Modifier::BOLD),
         )])),
         header_rows[0],
@@ -110,11 +110,11 @@ pub(super) fn render_settings_overlay(app: &AppState, frame: &mut Frame, area: R
             render_modal_choice_list(
                 frame,
                 content_area,
-                "agent status indicators",
-                "choose color dots or distinct symbols for each state",
+                "エージェントの状態インジケーター",
+                "状態ごとにカラードットか異なる記号を選択",
                 &[
-                    ("color dots  ● ● ● ○ ·", StatusIndicatorStyle::Dots),
-                    ("distinct symbols  × ◐ ✓ ○ ·", StatusIndicatorStyle::Symbols),
+                    ("カラードット  ● ● ● ○ ·", StatusIndicatorStyle::Dots),
+                    ("異なる記号  × ◐ ✓ ○ ·", StatusIndicatorStyle::Symbols),
                 ],
                 app.status_indicators,
                 app.settings.list.selected,
@@ -127,8 +127,8 @@ pub(super) fn render_settings_overlay(app: &AppState, frame: &mut Frame, area: R
                 frame,
                 content_area,
                 p,
-                "sound alerts",
-                "play sounds when agents change state in background",
+                "サウンド通知",
+                "バックグラウンドでエージェントの状態が変わったときに音を鳴らす",
                 app.sound_enabled(),
                 app.settings.list.selected,
             );
@@ -137,13 +137,13 @@ pub(super) fn render_settings_overlay(app: &AppState, frame: &mut Frame, area: R
             render_modal_choice_list(
                 frame,
                 content_area,
-                "notification popups",
-                "choose where background popup notifications should appear",
+                "通知ポップアップ",
+                "バックグラウンドのポップアップ通知の表示場所を選択",
                 &[
-                    ("off", ToastDelivery::Off),
-                    ("inside herdr", ToastDelivery::Herdr),
-                    ("via terminal", ToastDelivery::Terminal),
-                    ("via system", ToastDelivery::System),
+                    ("オフ", ToastDelivery::Off),
+                    ("herdr内部", ToastDelivery::Herdr),
+                    ("ターミナル経由", ToastDelivery::Terminal),
+                    ("システム経由", ToastDelivery::System),
                 ],
                 app.toast_delivery(),
                 app.settings.list.selected,
@@ -156,8 +156,8 @@ pub(super) fn render_settings_overlay(app: &AppState, frame: &mut Frame, area: R
                 frame,
                 content_area,
                 p,
-                "agent border labels",
-                "show detected agent names in split pane borders",
+                "エージェント境界ラベル",
+                "分割ペインの境界に検出されたエージェント名を表示",
                 app.agent_border_labels_enabled(),
                 app.settings.list.selected,
             );
@@ -200,9 +200,9 @@ pub(super) fn render_settings_overlay(app: &AppState, frame: &mut Frame, area: R
         frame.render_widget(
             Paragraph::new(Line::from(vec![
                 Span::styled(" ↑↓", Style::default().fg(p.overlay0)),
-                Span::styled(" select  ", Style::default().fg(p.overlay1)),
+                Span::styled(" 選択  ", Style::default().fg(p.overlay1)),
                 Span::styled("tab", Style::default().fg(p.overlay0)),
-                Span::styled(" section", Style::default().fg(p.overlay1)),
+                Span::styled(" セクション", Style::default().fg(p.overlay1)),
             ])),
             footer_rows[0],
         );
@@ -213,8 +213,8 @@ pub(crate) fn settings_primary_button_label(
     section: crate::app::state::SettingsSection,
 ) -> &'static str {
     match section {
-        crate::app::state::SettingsSection::Integrations => "install",
-        _ => "apply",
+        crate::app::state::SettingsSection::Integrations => "インストール",
+        _ => "適用する",
     }
 }
 
@@ -238,7 +238,7 @@ pub(crate) fn settings_button_rects(
             inner,
             &[ActionButtonSpec {
                 hint: Some("esc"),
-                label: "close",
+                label: "閉じる",
             }],
             2,
             inner.height.saturating_sub(1),
@@ -255,7 +255,7 @@ pub(crate) fn settings_button_rects(
             },
             ActionButtonSpec {
                 hint: Some("esc"),
-                label: "close",
+                label: "閉じる",
             },
         ],
         2,

@@ -63,7 +63,7 @@ fn parse_status_scope_args(
         None => Some((scope, false)),
         Some("--json") if args.len() == 2 => Some((scope, true)),
         _ => {
-            eprintln!("usage: {usage}");
+            eprintln!("使用法: {usage}");
             None
         }
     }

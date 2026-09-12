@@ -20,12 +20,7 @@ pub(super) fn render_onboarding_overlay(app: &AppState, frame: &mut Frame, area:
 }
 
 pub(crate) fn onboarding_welcome_continue_rect(area: Rect) -> Rect {
-    Rect::new(
-        area.x,
-        area.y,
-        action_button_width(Some("↵"), "continue"),
-        1,
-    )
+    Rect::new(area.x, area.y, action_button_width(Some("↵"), "続ける"), 1)
 }
 
 fn render_onboarding_welcome(app: &AppState, frame: &mut Frame, area: Rect) {
@@ -56,14 +51,14 @@ fn render_onboarding_welcome(app: &AppState, frame: &mut Frame, area: Rect) {
         header_rows[0],
     );
     frame.render_widget(
-        Paragraph::new("  terminal workspace manager for coding agents")
+        Paragraph::new("  コーディングエージェントのためのターミナルワークスペースマネージャー")
             .style(Style::default().fg(app.palette.overlay0)),
         header_rows[1],
     );
 
     frame.render_widget(
         Paragraph::new(
-            "  this is a mouse-first terminal.\n  click the sidebar to switch workspaces, drag pane\n  borders to resize, right-click for context menus.",
+            "  これはマウスファーストなターミナルです。\n  サイドバーをクリックしてワークスペースを切り替え、ペインの境界を\n  ドラッグしてサイズ変更し、右クリックでコンテキストメニューを開きます。",
         )
         .style(Style::default().fg(app.palette.overlay1)),
         content_rows[0],
@@ -78,7 +73,7 @@ fn render_onboarding_welcome(app: &AppState, frame: &mut Frame, area: Rect) {
                 .add_modifier(Modifier::BOLD),
         ),
         Span::styled(
-            " enters prefix mode · ",
+            " でプレフィックスモードに入る · ",
             Style::default().fg(app.palette.overlay1),
         ),
         Span::styled(
@@ -88,15 +83,17 @@ fn render_onboarding_welcome(app: &AppState, frame: &mut Frame, area: Rect) {
                 .add_modifier(Modifier::BOLD),
         ),
         Span::styled(
-            " shows keybinds and settings",
+            " でキーバインドと設定を表示",
             Style::default().fg(app.palette.overlay1),
         ),
     ]);
     frame.render_widget(Paragraph::new(key_line), content_rows[2]);
 
     frame.render_widget(
-        Paragraph::new("  next: install optional agent integrations for more reliable state")
-            .style(Style::default().fg(app.palette.overlay1)),
+        Paragraph::new(
+            "  次へ: より安定した状態のためにオプションのエージェント統合をインストールする",
+        )
+        .style(Style::default().fg(app.palette.overlay1)),
         content_rows[3],
     );
 
@@ -105,7 +102,7 @@ fn render_onboarding_welcome(app: &AppState, frame: &mut Frame, area: Rect) {
         frame,
         continue_rect,
         Some("↵"),
-        "continue",
+        "続ける",
         Style::default()
             .fg(panel_contrast_fg(&app.palette))
             .bg(app.palette.accent)

@@ -83,7 +83,7 @@ fn parse_shell(shell: &str) -> Option<Shell> {
 }
 
 fn print_completion_help() {
-    eprintln!("usage: herdr completion <{}>", supported_shells_usage());
+    eprintln!("使用法: herdr completion <{}>", supported_shells_usage());
 }
 
 #[cfg(test)]

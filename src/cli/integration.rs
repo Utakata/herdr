@@ -26,7 +26,7 @@ fn integration_status(args: &[String]) -> std::io::Result<i32> {
         [] => false,
         [flag] if flag == "--outdated-only" => true,
         _ => {
-            eprintln!("usage: herdr integration status [--outdated-only]");
+            eprintln!("使用法: herdr integration status [--outdated-only]");
             return Ok(2);
         }
     };

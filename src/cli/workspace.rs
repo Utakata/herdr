@@ -31,7 +31,7 @@ pub(super) fn run_workspace_command(args: &[String]) -> std::io::Result<i32> {
 
 fn workspace_list(args: &[String]) -> std::io::Result<i32> {
     if !args.is_empty() {
-        eprintln!("usage: herdr workspace list");
+        eprintln!("使用法: herdr workspace list");
         return Ok(2);
     }
 
@@ -49,7 +49,7 @@ fn workspace_create(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--cwd" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --cwd");
+                    eprintln!("値が不足しています: --cwd");
                     return Ok(2);
                 };
                 cwd = Some(value.clone());
@@ -57,7 +57,7 @@ fn workspace_create(args: &[String]) -> std::io::Result<i32> {
             }
             "--label" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --label");
+                    eprintln!("値が不足しています: --label");
                     return Ok(2);
                 };
                 label = Some(value.clone());
@@ -73,7 +73,7 @@ fn workspace_create(args: &[String]) -> std::io::Result<i32> {
             }
             "--env" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --env");
+                    eprintln!("値が不足しています: --env");
                     return Ok(2);
                 };
                 let (key, value) = match super::parse_env_assignment(value) {
@@ -87,7 +87,7 @@ fn workspace_create(args: &[String]) -> std::io::Result<i32> {
                 index += 2;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -103,11 +103,11 @@ fn workspace_create(args: &[String]) -> std::io::Result<i32> {
 
 fn workspace_get(args: &[String]) -> std::io::Result<i32> {
     let Some(raw_workspace_id) = args.first() else {
-        eprintln!("usage: herdr workspace get <workspace_id>");
+        eprintln!("使用法: herdr workspace get <workspace_id>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr workspace get <workspace_id>");
+        eprintln!("使用法: herdr workspace get <workspace_id>");
         return Ok(2);
     }
 
@@ -116,11 +116,11 @@ fn workspace_get(args: &[String]) -> std::io::Result<i32> {
 
 fn workspace_focus(args: &[String]) -> std::io::Result<i32> {
     let Some(raw_workspace_id) = args.first() else {
-        eprintln!("usage: herdr workspace focus <workspace_id>");
+        eprintln!("使用法: herdr workspace focus <workspace_id>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr workspace focus <workspace_id>");
+        eprintln!("使用法: herdr workspace focus <workspace_id>");
         return Ok(2);
     }
 
@@ -129,7 +129,7 @@ fn workspace_focus(args: &[String]) -> std::io::Result<i32> {
 
 fn workspace_rename(args: &[String]) -> std::io::Result<i32> {
     if args.len() < 2 {
-        eprintln!("usage: herdr workspace rename <workspace_id> <label>");
+        eprintln!("使用法: herdr workspace rename <workspace_id> <label>");
         return Ok(2);
     }
 
@@ -141,7 +141,7 @@ fn workspace_rename(args: &[String]) -> std::io::Result<i32> {
 
 fn workspace_report_metadata(args: &[String]) -> std::io::Result<i32> {
     let Some(raw_workspace_id) = args.first() else {
-        eprintln!("usage: herdr workspace report-metadata <workspace_id> --source ID [--token NAME=VALUE] [--clear-token NAME] [--seq N] [--ttl-ms N]");
+        eprintln!("使用法: herdr workspace report-metadata <workspace_id> --source ID [--token NAME=VALUE] [--clear-token NAME] [--seq N] [--ttl-ms N]");
         return Ok(2);
     };
     let workspace_id = super::normalize_workspace_id(raw_workspace_id);
@@ -154,7 +154,7 @@ fn workspace_report_metadata(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--source" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --source");
+                    eprintln!("値が不足しています: --source");
                     return Ok(2);
                 };
                 source = Some(value.clone());
@@ -162,7 +162,7 @@ fn workspace_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--token" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --token");
+                    eprintln!("値が不足しています: --token");
                     return Ok(2);
                 };
                 let (key, value) = match super::parse_token_assignment(value) {
@@ -177,7 +177,7 @@ fn workspace_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--clear-token" => {
                 let Some(key) = args.get(index + 1) else {
-                    eprintln!("missing value for --clear-token");
+                    eprintln!("値が不足しています: --clear-token");
                     return Ok(2);
                 };
                 tokens.insert(key.clone(), None);
@@ -185,7 +185,7 @@ fn workspace_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--seq" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --seq");
+                    eprintln!("値が不足しています: --seq");
                     return Ok(2);
                 };
                 seq = Some(super::parse_u64_flag("--seq", value)?);
@@ -193,14 +193,14 @@ fn workspace_report_metadata(args: &[String]) -> std::io::Result<i32> {
             }
             "--ttl-ms" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --ttl-ms");
+                    eprintln!("値が不足しています: --ttl-ms");
                     return Ok(2);
                 };
                 ttl_ms = Some(super::parse_u64_flag("--ttl-ms", value)?);
                 index += 2;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -229,7 +229,7 @@ fn workspace_close(args: &[String]) -> std::io::Result<i32> {
         [workspace_id] => (workspace_id, false),
         [workspace_id, flag] if flag == "--group" => (workspace_id, true),
         _ => {
-            eprintln!("usage: herdr workspace close <workspace_id> [--group]");
+            eprintln!("使用法: herdr workspace close <workspace_id> [--group]");
             return Ok(2);
         }
     };

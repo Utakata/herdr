@@ -50,7 +50,7 @@ fn agent_explain(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--file" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --file");
+                    eprintln!("値が不足しています: --file");
                     return Ok(2);
                 };
                 file = Some(value.clone());
@@ -58,7 +58,7 @@ fn agent_explain(args: &[String]) -> std::io::Result<i32> {
             }
             "--agent" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --agent");
+                    eprintln!("値が不足しています: --agent");
                     return Ok(2);
                 };
                 agent = Some(value.clone());
@@ -70,7 +70,7 @@ fn agent_explain(args: &[String]) -> std::io::Result<i32> {
             }
             "--format" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --format");
+                    eprintln!("値が不足しています: --format");
                     return Ok(2);
                 };
                 match value.as_str() {
@@ -88,7 +88,7 @@ fn agent_explain(args: &[String]) -> std::io::Result<i32> {
                 index += 1;
             }
             "help" | "--help" | "-h" => {
-                eprintln!("usage: herdr agent explain <target> [--json|--verbose]");
+                eprintln!("使用法: herdr agent explain <target> [--json|--verbose]");
                 eprintln!(
                     "usage: herdr agent explain --file PATH --agent LABEL [--json|--verbose]"
                 );
@@ -100,7 +100,7 @@ fn agent_explain(args: &[String]) -> std::io::Result<i32> {
             }
             value => {
                 if target.is_some() {
-                    eprintln!("usage: herdr agent explain <target> [--json]");
+                    eprintln!("使用法: herdr agent explain <target> [--json]");
                     return Ok(2);
                 }
                 target = Some(value.to_string());
@@ -111,7 +111,7 @@ fn agent_explain(args: &[String]) -> std::io::Result<i32> {
 
     let explain = if let Some(path) = file {
         if target.is_some() {
-            eprintln!("usage: herdr agent explain --file PATH --agent LABEL [--json]");
+            eprintln!("使用法: herdr agent explain --file PATH --agent LABEL [--json]");
             return Ok(2);
         }
         let Some(agent_label) = agent else {
@@ -139,8 +139,8 @@ fn agent_explain(args: &[String]) -> std::io::Result<i32> {
         ))
     } else {
         let Some(target) = target else {
-            eprintln!("usage: herdr agent explain <target> [--json]");
-            eprintln!("usage: herdr agent explain --file PATH --agent LABEL [--json]");
+            eprintln!("使用法: herdr agent explain <target> [--json]");
+            eprintln!("使用法: herdr agent explain --file PATH --agent LABEL [--json]");
             return Ok(2);
         };
         if agent.is_some() {
@@ -288,7 +288,7 @@ fn matched_rule_region_preview<'a>(
 
 fn agent_start(args: &[String]) -> std::io::Result<i32> {
     let Some(name) = args.first() else {
-        eprintln!("usage: herdr agent start <name> --kind KIND --pane ID [--timeout MS] [-- <agent-args...>]");
+        eprintln!("使用法: herdr agent start <name> --kind KIND --pane ID [--timeout MS] [-- <agent-args...>]");
         return Ok(2);
     };
     let separator = args
@@ -303,7 +303,7 @@ fn agent_start(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--kind" => {
                 let Some(value) = args.get(index + 1).filter(|_| index + 1 < separator) else {
-                    eprintln!("missing value for --kind");
+                    eprintln!("値が不足しています: --kind");
                     return Ok(2);
                 };
                 kind = Some(value.clone());
@@ -311,7 +311,7 @@ fn agent_start(args: &[String]) -> std::io::Result<i32> {
             }
             "--pane" => {
                 let Some(value) = args.get(index + 1).filter(|_| index + 1 < separator) else {
-                    eprintln!("missing value for --pane");
+                    eprintln!("値が不足しています: --pane");
                     return Ok(2);
                 };
                 pane_id = Some(super::normalize_pane_id(value));
@@ -319,7 +319,7 @@ fn agent_start(args: &[String]) -> std::io::Result<i32> {
             }
             "--timeout" => {
                 let Some(value) = args.get(index + 1).filter(|_| index + 1 < separator) else {
-                    eprintln!("missing value for --timeout");
+                    eprintln!("値が不足しています: --timeout");
                     return Ok(2);
                 };
                 timeout_ms = match parse_timeout(value) {
@@ -329,7 +329,7 @@ fn agent_start(args: &[String]) -> std::io::Result<i32> {
                 index += 2;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -437,7 +437,7 @@ fn agent_start(args: &[String]) -> std::io::Result<i32> {
 
 fn agent_list(args: &[String]) -> std::io::Result<i32> {
     if !args.is_empty() {
-        eprintln!("usage: herdr agent list");
+        eprintln!("使用法: herdr agent list");
         return Ok(2);
     }
 
@@ -449,11 +449,11 @@ fn agent_list(args: &[String]) -> std::io::Result<i32> {
 
 fn agent_get(args: &[String]) -> std::io::Result<i32> {
     let Some(target) = args.first() else {
-        eprintln!("usage: herdr agent get <target>");
+        eprintln!("使用法: herdr agent get <target>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr agent get <target>");
+        eprintln!("使用法: herdr agent get <target>");
         return Ok(2);
     }
 
@@ -467,11 +467,11 @@ fn agent_get(args: &[String]) -> std::io::Result<i32> {
 
 fn agent_focus(args: &[String]) -> std::io::Result<i32> {
     let Some(target) = args.first() else {
-        eprintln!("usage: herdr agent focus <target>");
+        eprintln!("使用法: herdr agent focus <target>");
         return Ok(2);
     };
     if args.len() != 1 {
-        eprintln!("usage: herdr agent focus <target>");
+        eprintln!("使用法: herdr agent focus <target>");
         return Ok(2);
     }
 
@@ -505,7 +505,7 @@ fn agent_attach(args: &[String]) -> std::io::Result<i32> {
 
 fn agent_wait(args: &[String]) -> std::io::Result<i32> {
     let Some(target) = args.first() else {
-        eprintln!("usage: herdr agent wait <target> [--until STATUS]... [--timeout MS]");
+        eprintln!("使用法: herdr agent wait <target> [--until STATUS]... [--timeout MS]");
         return Ok(2);
     };
     let mut until = Vec::new();
@@ -530,7 +530,7 @@ fn agent_wait(args: &[String]) -> std::io::Result<i32> {
             }
             "--timeout" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --timeout");
+                    eprintln!("値が不足しています: --timeout");
                     return Ok(2);
                 };
                 timeout_ms = match parse_timeout(value) {
@@ -540,11 +540,11 @@ fn agent_wait(args: &[String]) -> std::io::Result<i32> {
                 index += 2;
             }
             "help" | "--help" | "-h" => {
-                eprintln!("usage: herdr agent wait <target> [--until STATUS]... [--timeout MS]");
+                eprintln!("使用法: herdr agent wait <target> [--until STATUS]... [--timeout MS]");
                 return Ok(0);
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
@@ -638,7 +638,7 @@ fn pane_terminal_id(pane_id: &str) -> std::io::Result<Option<String>> {
             pane_id: pane_id.to_owned(),
         }),
     })?;
-    Ok(response["result"]["pane"]["terminal_id"]
+    Ok(response["result"]["ペイン"]["terminal_id"]
         .as_str()
         .map(str::to_owned))
 }
@@ -750,7 +750,7 @@ fn agent_get_request(target: &str, request_id: &str) -> Request {
 
 fn agent_rename(args: &[String]) -> std::io::Result<i32> {
     let [target, value] = args else {
-        eprintln!("usage: herdr agent rename <target> <name>|--clear");
+        eprintln!("使用法: herdr agent rename <target> <name>|--clear");
         return Ok(2);
     };
     let name = if value == "--clear" {
@@ -806,7 +806,7 @@ fn agent_prompt(args: &[String]) -> std::io::Result<i32> {
             }
             "--timeout" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --timeout");
+                    eprintln!("値が不足しています: --timeout");
                     return Ok(2);
                 };
                 timeout_ms = match parse_timeout(value) {
@@ -842,7 +842,7 @@ fn agent_prompt(args: &[String]) -> std::io::Result<i32> {
 
 fn agent_send_keys(args: &[String]) -> std::io::Result<i32> {
     if args.len() < 2 {
-        eprintln!("usage: herdr agent send-keys <target> <key> [key ...]");
+        eprintln!("使用法: herdr agent send-keys <target> <key> [key ...]");
         return Ok(2);
     }
 
@@ -857,7 +857,7 @@ fn agent_send_keys(args: &[String]) -> std::io::Result<i32> {
 
 fn agent_read(args: &[String]) -> std::io::Result<i32> {
     let Some(target) = args.first() else {
-        eprintln!("usage: herdr agent read <target> [--source visible|recent|recent-unwrapped] [--lines N] [--format text|ansi] [--ansi]");
+        eprintln!("使用法: herdr agent read <target> [--source visible|recent|recent-unwrapped] [--lines N] [--format text|ansi] [--ansi]");
         return Ok(2);
     };
 
@@ -871,7 +871,7 @@ fn agent_read(args: &[String]) -> std::io::Result<i32> {
         match args[index].as_str() {
             "--source" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --source");
+                    eprintln!("値が不足しています: --source");
                     return Ok(2);
                 };
                 source = super::parse_read_source(value)?;
@@ -879,7 +879,7 @@ fn agent_read(args: &[String]) -> std::io::Result<i32> {
             }
             "--lines" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --lines");
+                    eprintln!("値が不足しています: --lines");
                     return Ok(2);
                 };
                 lines = Some(super::parse_u32_flag("--lines", value)?);
@@ -887,7 +887,7 @@ fn agent_read(args: &[String]) -> std::io::Result<i32> {
             }
             "--format" => {
                 let Some(value) = args.get(index + 1) else {
-                    eprintln!("missing value for --format");
+                    eprintln!("値が不足しています: --format");
                     return Ok(2);
                 };
                 format = super::parse_read_format(value)?;
@@ -900,7 +900,7 @@ fn agent_read(args: &[String]) -> std::io::Result<i32> {
                 index += 1;
             }
             other => {
-                eprintln!("unknown option: {other}");
+                eprintln!("不明なオプション: {other}");
                 return Ok(2);
             }
         }
